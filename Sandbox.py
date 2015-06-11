@@ -11,10 +11,10 @@ import requests
 
 userID = '2338633'
 collectionID = '7VGCKIXX'
-apiKey = 'RBdQF6QREuQGvjXezOgqHiQO'
+apiKey = ''
 
 # arrange the input into an API call that checks with Zotero 
-#query_params = { 'key': 'RBdQF6QREuQGvjXezOgqHiQO',
+#query_params = { 'key': '',
                 #'userID': '2338633',
                 #'collectionID': 'NR8XU5N6'
 		 		#}

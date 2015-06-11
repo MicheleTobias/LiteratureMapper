@@ -2,7 +2,7 @@ from pyzotero import zotero
 
 userID = '2338633'
 collectionID = '7VGCKIXX'
-apiKey = 'RBdQF6QREuQGvjXezOgqHiQO'
+apiKey = ''
 
 #################
 #zot = zotero.Zotero(collectionID, 'user', apiKey)

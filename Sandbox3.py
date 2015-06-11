@@ -12,7 +12,7 @@ import requests
 
 userID = '2338633'
 collectionID = '7VGCKIXX'
-apiKey = 'RBdQF6QREuQGvjXezOgqHiQO'
+apiKey = ''
 
 #function to send a get request
 def api_get(userID, collectionID):

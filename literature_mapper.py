@@ -27,6 +27,8 @@ import resources_rc
 # Import the code for the dialog
 from literature_mapper_dialog import LiteratureMapperDialog
 import os.path
+import json #json parsing library  simplejson simplejson.load(json string holding variable)
+import requests
 
 
 class LiteratureMapper:
@@ -185,7 +187,26 @@ class LiteratureMapper:
         # Run the dialog event loop
         result = self.dlg.exec_()
         # See if OK was pressed
-        if result:
+        
+        if result == 1:
+            # send the API request
+            #function to send a get request
+            def api_get(userID, collectionID):
+                api_url = 'https://api.zotero.org/users/%s/collections/%s/items?v=3' % (userID, collectionID)
+                zotero_response = requests.get(api_url)
+                #print zotero_response.status_code
+                return zotero_response
+            
+            # *if* the server response = 200, start the window that records geometry from map canvas clicks.
+            userID = '2338633'
+            collectionID = '7VGCKIXX'
+            apiKey = 'RBdQF6QREuQGvjXezOgqHiQO'
+            data = api_get('2338633', '7VGCKIXX')
+            if data.status_code == 200:
+                #self.objectfrominterface.content <-- how to access the user input
+                self.iface.messageBar().pushMessage("Zotero is ready!", level=1)
+            else:
+                self.iface.messageBar().pushMessage("Try again...", level=1)
             # Do something useful here - delete the line containing pass and
             # substitute with your code.
             #from urllib2 import urlopen #API library?
@@ -200,4 +221,4 @@ class LiteratureMapper:
             # Select a citation in the table, then let the user click to add the geometry to the appropriate column.
             
         
-            pass
+            #pass

@@ -13,5 +13,6 @@ items = zot.items()
 for item in items:
     print('Item Type: %s | Key: %s') % (item['data']['itemType'], item['data']['key'])
 
-
+print(Zot.num_items())
+print(item['data'])
 

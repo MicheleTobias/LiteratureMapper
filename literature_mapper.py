@@ -29,6 +29,7 @@ from literature_mapper_dialog import LiteratureMapperDialog
 import os.path
 import json #json parsing library  simplejson simplejson.load(json string holding variable)
 import requests
+from qgis.core import QgsMessageLog
 
 
 class LiteratureMapper:
@@ -178,47 +179,67 @@ class LiteratureMapper:
                 self.tr(u'&Literature Mapper'),
                 action)
             self.iface.removeToolBarIcon(action)
+    
+    def store(self):
+        s = QSettings()
+        s.setValue("literaturemapper/myapikey", self.dlg.lineEdit_APIKey.text())
+        s.setValue("literaturemapper/myuserid",  self.dlg.lineEdit_UserID.text())
+        s.setValue("literaturemapper/mycollectionkey", self.dlg.lineEdit_CollectionKey.text())
+
+    def read(self):
+        s = QSettings()
+        self.dlg.lineEdit_APIKey.setText(s.value("literaturemapper/myapikey", ""))
+        self.dlg.lineEdit_UserID.setText(s.value("literaturemapper/myuserid", ""))
+        self.dlg.lineEdit_CollectionKey.setText(s.value("literaturemapper/mycollectionkey", ""))
+
 
 
     def run(self):
         """Run method that performs all the real work"""
         # show the dialog
         self.dlg.show()
+        self.read()
         # Run the dialog event loop
         result = self.dlg.exec_()
+        self.store()
         # See if OK was pressed
         
         if result == 1:
             # send the API request
-            #function to send a get request
+            #function to send a get request  # arrange the input into an API call that checks with Zotero 
             def api_get(userID, collectionID):
                 api_url = 'https://api.zotero.org/users/%s/collections/%s/items?v=3' % (userID, collectionID)
                 zotero_response = requests.get(api_url)
                 #print zotero_response.status_code
                 return zotero_response
             
-            # *if* the server response = 200, start the window that records geometry from map canvas clicks.
-            userID = '2338633'
-            collectionID = '7VGCKIXX'
-            apiKey = 'RBdQF6QREuQGvjXezOgqHiQO'
-            data = api_get('2338633', '7VGCKIXX')
+            #hardcoded variables ---- change to get them from the interface
+            #userID = '2338633'
+            #collectionID = '7VGCKIXX'
+            #apiKey = ''
+            
+            userID = self.dlg.lineEdit_UserID.text()
+            QgsMessageLog.logMessage(userID, 'LiteratureMapper', QgsMessageLog.INFO)
+            collectionID = self.dlg.lineEdit_CollectionKey.text()
+            apiKey = self.dlg.lineEdit_APIKey.text()
+            
+            data = api_get(userID, collectionID)
+            
+            
+            #if the server response = 200, start the window that records geometry from map canvas clicks.
             if data.status_code == 200:
                 #self.objectfrominterface.content <-- how to access the user input
                 self.iface.messageBar().pushMessage("Zotero is ready!", level=1)
             else:
                 self.iface.messageBar().pushMessage("Try again...", level=1)
-            # Do something useful here - delete the line containing pass and
-            # substitute with your code.
-            #from urllib2 import urlopen #API library?
-            #import json #json parsing library
-            # arrange the input into an API call that checks with Zotero 
-            #response = requests.get(URL GOES HERE!)
-            #if response.status_code = 200:
-             #   PROCEED
-                
+
+
+               
             # Pull in a list of citations from the collection specified
             # Put the citations into a table
             # Select a citation in the table, then let the user click to add the geometry to the appropriate column.
             
-        
+            
+            #from urllib2 import urlopen #API library?
+            #import json #json parsing library
             #pass

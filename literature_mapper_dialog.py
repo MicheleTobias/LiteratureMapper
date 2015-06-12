@@ -28,7 +28,8 @@ from PyQt4 import QtGui, uic
 FORM_CLASS, _ = uic.loadUiType(os.path.join(
     os.path.dirname(__file__), 'literature_mapper_dialog_base.ui'))
 
-
+FORM_CLASS_Table, _ = uic.loadUiType(os.path.join(os.path.dirname(__file__), 'table_interface.ui'))
+    
 class LiteratureMapperDialog(QtGui.QDialog, FORM_CLASS):
     def __init__(self, parent=None):
         """Constructor."""
@@ -38,4 +39,9 @@ class LiteratureMapperDialog(QtGui.QDialog, FORM_CLASS):
         # self.<objectname>, and you can use autoconnect slots - see
         # http://qt-project.org/doc/qt-4.8/designer-using-a-ui-file.html
         # #widgets-and-dialogs-with-auto-connect
+        self.setupUi(self)
+
+class TableInterface(QtGui.QDialog, FORM_CLASS_Table):
+    def __init__(self, parent=None):
+        super(TableInterface, self).__init__(parent)
         self.setupUi(self)

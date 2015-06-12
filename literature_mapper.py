@@ -25,7 +25,7 @@ from PyQt4.QtGui import QAction, QIcon
 # Initialize Qt resources from file resources.py
 import resources_rc
 # Import the code for the dialog
-from literature_mapper_dialog import LiteratureMapperDialog
+from literature_mapper_dialog import LiteratureMapperDialog, TableInterface
 import os.path
 import json #json parsing library  simplejson simplejson.load(json string holding variable)
 import requests
@@ -63,7 +63,8 @@ class LiteratureMapper:
 
         # Create the dialog (after translation) and keep reference
         self.dlg = LiteratureMapperDialog()
-
+        self.dlgTable = TableInterface()
+        
         # Declare instance attributes
         self.actions = []
         self.menu = self.tr(u'&Literature Mapper')
@@ -235,6 +236,7 @@ class LiteratureMapper:
             if data.status_code == 200:
                 self.iface.messageBar().pushMessage("Zotero is ready!", level=1)
                 #open a new interface
+                self.dlgTable.show()
                 #put the data into a table in the interface
                 #get location from mouse click
                 #put the location in the Extra field

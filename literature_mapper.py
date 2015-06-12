@@ -21,7 +21,7 @@
  ***************************************************************************/
 """
 from PyQt4.QtCore import QSettings, QTranslator, qVersion, QCoreApplication
-from PyQt4.QtGui import QAction, QIcon
+from PyQt4.QtGui import QAction, QIcon, QTableWidgetItem
 # Initialize Qt resources from file resources.py
 import resources_rc
 # Import the code for the dialog
@@ -214,6 +214,13 @@ class LiteratureMapper:
                 #print zotero_response.status_code
                 return zotero_response
             
+            #function to parse the Zotero API data
+            def parse_zotero(zotero_response):
+                encoded_data = json.dumps(data.content)
+                parsed_data = json.loads(encoded_data)
+                return parsed_data
+            
+            
             #hardcoded variables ---- change to get them from the interface
             #userID = '2338633'
             #collectionID = '7VGCKIXX'
@@ -231,15 +238,27 @@ class LiteratureMapper:
             
             #Send a Get Request to test the connection and get the collection data
             data = api_get(userID, collectionID)
+            data_parsed = parse_zotero(data)
                         
             #if the server response = 200, start the window that records geometry from map canvas clicks.
             if data.status_code == 200:
                 self.iface.messageBar().pushMessage("Zotero is ready!", level=1)
                 #open a new interface
                 self.dlgTable.show()
+                
                 #put the data into a table in the interface
+                ############### THIS PART DOESN'T WORK - learn about the structure of the json data to see if len() works the way it's used here
+                self.dlgTable.tableWidget_Zotero.setRowCount(len(data_parsed))
+                self.dlgTable.tableWidget_Zotero.verticalHeader().setVisible(False)
+
+                for i, row in enumerate(data_parsed):
+                    for j, col in enumerate(row):
+                        item = QTableWidgetItem(col)
+                        self.dlgTable.tableWidget_Zotero.setItem(i, j, item)
+                
                 #get location from mouse click
                 #put the location in the Extra field
+                
             else:
                 self.iface.messageBar().pushMessage("Zotero cannot connect. Check the IDs you entered and try again.", level=1)
 

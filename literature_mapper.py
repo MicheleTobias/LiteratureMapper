@@ -218,20 +218,28 @@ class LiteratureMapper:
             #collectionID = '7VGCKIXX'
             #apiKey = ''
             
+            #Getting the variables the user entered
             userID = self.dlg.lineEdit_UserID.text()
-            QgsMessageLog.logMessage(userID, 'LiteratureMapper', QgsMessageLog.INFO)
             collectionID = self.dlg.lineEdit_CollectionKey.text()
             apiKey = self.dlg.lineEdit_APIKey.text()
             
+            #Log the numbers the user entered
+            QgsMessageLog.logMessage("User ID: %s" % userID, 'LiteratureMapper', QgsMessageLog.INFO)
+            QgsMessageLog.logMessage("Collection ID: %s" % collectionID, 'LiteratureMapper', QgsMessageLog.INFO)
+            QgsMessageLog.logMessage("API Key: %s" % apiKey, 'LiteratureMapper', QgsMessageLog.INFO)
+            
+            #Send a Get Request to test the connection and get the collection data
             data = api_get(userID, collectionID)
-            
-            
+                        
             #if the server response = 200, start the window that records geometry from map canvas clicks.
             if data.status_code == 200:
-                #self.objectfrominterface.content <-- how to access the user input
                 self.iface.messageBar().pushMessage("Zotero is ready!", level=1)
+                #open a new interface
+                #put the data into a table in the interface
+                #get location from mouse click
+                #put the location in the Extra field
             else:
-                self.iface.messageBar().pushMessage("Try again...", level=1)
+                self.iface.messageBar().pushMessage("Zotero cannot connect. Check the IDs you entered and try again.", level=1)
 
 
                

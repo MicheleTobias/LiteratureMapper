@@ -268,7 +268,7 @@ class LiteratureMapper:
                     for j, author in enumerate(record['data']['creators']):
                         new_author = author['lastName']
                         author_list = author_list + ', ' + new_author
-                    self.dlgTable.tableWidget_Zotero.setItem(i, 2, QTableWidgetItem(author_list))
+                    self.dlgTable.tableWidget_Zotero.setItem(i, 2, QTableWidgetItem(author_list[2 : len(author_list)]))
                     title = QTableWidgetItem(record['data']['title'])
                     self.dlgTable.tableWidget_Zotero.setItem(i, 3, title)
                 #for i, record in enumerate(data_json):

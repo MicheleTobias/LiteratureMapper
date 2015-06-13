@@ -30,6 +30,7 @@ import os.path
 import json #json parsing library  simplejson simplejson.load(json string holding variable)
 import requests
 from qgis.core import QgsMessageLog
+import urllib2
 
 
 class LiteratureMapper:
@@ -221,6 +222,11 @@ class LiteratureMapper:
                 return parsed_data
             
             
+            def data_get(userID, collectionID):
+                api_url = 'https://api.zotero.org/users/%s/collections/%s/items?v=3' % (userID, collectionID)
+                data_json = json.load(urllib2.urlopen(api_url))
+                return data_json
+            
             #hardcoded variables ---- change to get them from the interface
             #userID = '2338633'
             #collectionID = '7VGCKIXX'
@@ -239,6 +245,7 @@ class LiteratureMapper:
             #Send a Get Request to test the connection and get the collection data
             data = api_get(userID, collectionID)
             data_parsed = parse_zotero(data)
+            data_json = data_get(userID, collectionID)
                         
             #if the server response = 200, start the window that records geometry from map canvas clicks.
             if data.status_code == 200:
@@ -248,14 +255,26 @@ class LiteratureMapper:
                 
                 #put the data into a table in the interface
                 ############### THIS PART DOESN'T WORK - learn about the structure of the json data to see if len() works the way it's used here
-                self.dlgTable.tableWidget_Zotero.setRowCount(len(data_parsed))
+                self.dlgTable.tableWidget_Zotero.setRowCount(len(data_json))
                 self.dlgTable.tableWidget_Zotero.verticalHeader().setVisible(False)
-
-                for i, row in enumerate(data_parsed):
-                    for j, col in enumerate(row):
-                        item = QTableWidgetItem(col)
-                        self.dlgTable.tableWidget_Zotero.setItem(i, j, item)
                 
+                for i, record in enumerate(data_json):
+                    key = QTableWidgetItem(record['data']['key'])
+                    self.dlgTable.tableWidget_Zotero.setItem(i, 0, key)
+                    year = QTableWidgetItem(record['data']['date'])
+                    self.dlgTable.tableWidget_Zotero.setItem(i, 1, year)
+                    author_list = ""
+                    #***** Need to implement a check to see if 'lastName' exists
+                    for j, author in enumerate(record['data']['creators']):
+                        new_author = author['lastName']
+                        author_list = author_list + ', ' + new_author
+                    self.dlgTable.tableWidget_Zotero.setItem(i, 2, QTableWidgetItem(author_list))
+                    title = QTableWidgetItem(record['data']['title'])
+                    self.dlgTable.tableWidget_Zotero.setItem(i, 3, title)
+                #for i, record in enumerate(data_json):
+                 #   for j, element in enumerate(record):
+                  #      item = QTableWidgetItem(record['data'][element])
+                   #     self.dlgTable.tableWidget_Zotero.setItem(i, j, item)              
                 #get location from mouse click
                 #put the location in the Extra field
                 

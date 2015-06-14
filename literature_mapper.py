@@ -190,6 +190,7 @@ class LiteratureMapper:
         # get mouse click X & Y
         # put X & Y in the cell - 
         self.dlgTable.tableWidget_Zotero.setItem(self.dlgTable.tableWidget_Zotero.currentRow(),4,QTableWidgetItem("%s,%s" % (str(point.x()),str(point.y()))))
+        # TODO: finess the geometry string into a geoJSON geometry string
 
 
     def unload(self):
@@ -275,7 +276,6 @@ class LiteratureMapper:
                 self.dlgTable.show()
                 
                 #put the data into a table in the interface
-                ############### THIS PART DOESN'T WORK - learn about the structure of the json data to see if len() works the way it's used here
                 self.dlgTable.tableWidget_Zotero.setRowCount(len(data_json))
                 self.dlgTable.tableWidget_Zotero.verticalHeader().setVisible(False)
                 
@@ -285,7 +285,7 @@ class LiteratureMapper:
                     year = QTableWidgetItem(record['data']['date'])
                     self.dlgTable.tableWidget_Zotero.setItem(i, 1, year)
                     author_list = ""
-                    #***** Need to implement a check to see if 'lastName' exists
+                    # TODO: implement a check to see if 'lastName' exists
                     for j, author in enumerate(record['data']['creators']):
                         new_author = author['lastName']
                         author_list = author_list + ', ' + new_author
@@ -296,8 +296,15 @@ class LiteratureMapper:
                  #   for j, element in enumerate(record):
                   #      item = QTableWidgetItem(record['data'][element])
                    #     self.dlgTable.tableWidget_Zotero.setItem(i, j, item)              
-                #get location from mouse click
-                #put the location in the Extra field
+                
+                #get location from mouse click --> happens in another part of the code above
+                
+                # TODO: Put Request to Zotero: put the location in the Extra field
+                # TODO: Put points on the map canvas
+                # TODO: Save Shapefile option
+                # TODO: Docable or auto switch back to the table after canvas click
+                # TODO: Transform coordinates if not in WGS84
+                # TODO: Hand-entering the X & Y
                 
             else:
                 self.iface.messageBar().pushMessage("Zotero cannot connect. Check the IDs you entered and try again.", level=1)

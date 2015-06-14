@@ -20,8 +20,8 @@
  *                                                                         *
  ***************************************************************************/
 """
-from PyQt4.QtCore import QSettings, QTranslator, qVersion, QCoreApplication
-from PyQt4.QtGui import QAction, QIcon, QTableWidgetItem
+from PyQt4.QtCore import QSettings, QTranslator, qVersion, QCoreApplication, QObject, SIGNAL
+from PyQt4.QtGui import QAction, QIcon, QTableWidget, QTableWidgetItem, QMessageBox
 # Initialize Qt resources from file resources.py
 import resources_rc
 # Import the code for the dialog
@@ -31,6 +31,7 @@ import json #json parsing library  simplejson simplejson.load(json string holdin
 import requests
 from qgis.core import QgsMessageLog
 import urllib2
+from qgis.gui import *
 
 
 class LiteratureMapper:
@@ -46,6 +47,11 @@ class LiteratureMapper:
         """
         # Save reference to the QGIS interface
         self.iface = iface
+        # a reference to our map canvas
+        self.canvas = self.iface.mapCanvas()  #CHANGE
+        # this QGIS tool emits as QgsPoint after each click on the map canvas
+        self.clickTool = QgsMapToolEmitPoint(self.canvas)
+        
         # initialize plugin directory
         self.plugin_dir = os.path.dirname(__file__)
         # initialize locale
@@ -171,7 +177,19 @@ class LiteratureMapper:
             text=self.tr(u'Store locations in your Zotero database.'),
             callback=self.run,
             parent=self.iface.mainWindow())
-
+        
+        # For clicking on the canvas - checks to see if a click happened
+        result = QObject.connect(self.clickTool, SIGNAL("canvasClicked(const QgsPoint &, Qt::MouseButton)"), self.handleMouseDown)
+        #QMessageBox.information( self.iface.mainWindow(),"Info", "connect = %s"%str(result) )
+    
+    # Function to record a mouse click - works with the above code
+    # change this so it puts the point in the table
+    def handleMouseDown(self, point, button):
+        #QMessageBox.information( self.iface.mainWindow(),"Info", "X,Y = %s,%s" % (str(point.x()),str(point.y())) )
+        # get active table cell
+        # get mouse click X & Y
+        # put X & Y in the cell - 
+        self.dlgTable.tableWidget_Zotero.setItem(self.dlgTable.tableWidget_Zotero.currentRow(),4,QTableWidgetItem("%s,%s" % (str(point.x()),str(point.y()))))
 
 
     def unload(self):
@@ -198,6 +216,9 @@ class LiteratureMapper:
 
     def run(self):
         """Run method that performs all the real work"""
+        # make our clickTool the tool that we'll use for now
+        self.canvas.setMapTool(self.clickTool)
+        
         # show the dialog
         self.dlg.show()
         self.read()

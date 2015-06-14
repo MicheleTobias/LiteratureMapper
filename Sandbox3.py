@@ -52,6 +52,9 @@ for count, element in enumerate(testtwo):
     
 print(testtwo)
 
+author_list = ""
 for i, record in enumerate(testtwo):
     for j, author in enumerate(record['data']['creators']):
+        new_author = author['lastName']
+        author_list = author_list + ', ' + new_author
         print i, j, record['data']['date'], author['lastName']

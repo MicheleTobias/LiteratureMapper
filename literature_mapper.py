@@ -189,8 +189,9 @@ class LiteratureMapper:
         # get active table cell
         # get mouse click X & Y
         # put X & Y in the cell - 
-        self.dlgTable.tableWidget_Zotero.setItem(self.dlgTable.tableWidget_Zotero.currentRow(),4,QTableWidgetItem("%s,%s" % (str(point.x()),str(point.y()))))
+        self.dlgTable.tableWidget_Zotero.setItem(self.dlgTable.tableWidget_Zotero.currentRow(),4,QTableWidgetItem('{"type": "Point", "coordinates": [%s, %s]}' % (str(point.x()),str(point.y()))))
         # TODO: finess the geometry string into a geoJSON geometry string
+        # TODO: accept other geometry types besides points
 
 
     def unload(self):

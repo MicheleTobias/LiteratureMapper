@@ -181,6 +181,7 @@ class LiteratureMapper:
         # For clicking on the canvas - checks to see if a click happened
         result = QObject.connect(self.clickTool, SIGNAL("canvasClicked(const QgsPoint &, Qt::MouseButton)"), self.handleMouseDown)
         #QMessageBox.information( self.iface.mainWindow(),"Info", "connect = %s"%str(result) )
+        QObject.connect(self.dlgTable.pushButton_Save, SIGNAL("clicked()"), self.saveZotero)
     
     # Function to record a mouse click - works with the above code
     # change this so it puts the point in the table
@@ -190,9 +191,12 @@ class LiteratureMapper:
         # get mouse click X & Y
         # put X & Y in the cell - 
         self.dlgTable.tableWidget_Zotero.setItem(self.dlgTable.tableWidget_Zotero.currentRow(),4,QTableWidgetItem('{"type": "Point", "coordinates": [%s, %s]}' % (str(point.x()),str(point.y()))))
-        # TODO: finess the geometry string into a geoJSON geometry string
+        # --TODO: finess the geometry string into a geoJSON geometry string
         # TODO: accept other geometry types besides points
 
+    def saveZotero(self):
+        #Write what happens to save to zotero here
+        pass
 
     def unload(self):
         """Removes the plugin menu item and icon from QGIS GUI."""

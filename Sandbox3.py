@@ -58,3 +58,29 @@ for i, record in enumerate(testtwo):
         new_author = author['lastName']
         author_list = author_list + ', ' + new_author
         print i, j, record['data']['date'], author['lastName']
+
+# requests.post - parameters: key, json string
+#  requestData = json.dumps({'items': writeArray})
+#  writeResponse = self.owningLibrary._request(reqUrl, 'POST', requestData, {'Content-Type': 'application/json'})
+# From: https://github.com/fcheslack/libZotero/blob/master/lib/py/libZotero/items.py
+
+userID = '2338633'
+collectionID = 'FH7WPHPV'
+apiKey = ''
+key = 'ZWAR8VM6'
+#put_data = [{"key": key, "extra" : "Put this in the Extra Field!"}]
+#put_data = json.dumps(put_data)
+
+item_request = requests.get(put_url)
+
+#put_url = 'https://api.zotero.org/users/%s/items?v=3' % (userID)
+request_url = 'https://api.zotero.org/users/%s/items/%s' % (userID, key)
+item_request = requests.get(request_url)
+item_json = json.load(urllib2.urlopen(request_url))
+item_json['data']['extra']= 'Oh yeah!  It worked'
+item_json=json.dumps(item_json)
+
+#put_url = 'https://api.zotero.org/users/%s/items/%s' % (userID, key)
+
+put_request = requests.put(request_url, data=item_json, headers={'Authorization': 'Bearer %s' % (apiKey), 'Content-Type': 'application/json'})
+print(put_request.status_code)

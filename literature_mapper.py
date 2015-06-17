@@ -207,16 +207,12 @@ class LiteratureMapper:
             request_url = 'https://api.zotero.org/users/%s/items/%s' % (self.userID, itemKey)
             item_request = requests.get(request_url)
             QgsMessageLog.logMessage("Item Request Response: %s" % item_request.status_code, 'LiteratureMapper', QgsMessageLog.INFO)
-            #item_json = json.load(urllib2.urlopen(request_url))
+            item_json = json.load(urllib2.urlopen(request_url))
+            item_json['data']['extra'] = extraString
+            item_json=json.dumps(item_json)
+            put_request = requests.put(request_url, data=item_json, headers={'Authorization': 'Bearer %s' % (self.apiKey), 'Content-Type': 'application/json'})
+            QgsMessageLog.logMessage("Put Response: %s" % put_request.status_code, 'LiteratureMapper', QgsMessageLog.INFO)
         
-        """
-        
-        
-        item_json['data']['extra'] = extraString
-        item_json=json.dumps(item_json)
-        put_request = requests.put(request_url, data=item_json, headers={'Authorization': 'Bearer %s' % (apiKey), 'Content-Type': 'application/json'})
-        """
-        pass
 
     def unload(self):
         """Removes the plugin menu item and icon from QGIS GUI."""

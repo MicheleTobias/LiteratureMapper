@@ -196,6 +196,26 @@ class LiteratureMapper:
 
     def saveZotero(self):
         #Write what happens to save to zotero here
+        #rows = range(0, 5)
+        rows = range(0, QTableWidget.rowCount(self.dlgTable.tableWidget_Zotero))
+        for row in rows:
+            #get the itemID(zotero key) and geometry cells from the table - itemAt(x,y)
+            itemKey = self.dlgTable.tableWidget_Zotero.item(row, 0).text()
+            extraString = self.dlgTable.tableWidget_Zotero.item(row, 4).text()
+            QgsMessageLog.logMessage("row: %s  itemKey: %s  extraString: %s" % (row, itemKey, extraString), 'LiteratureMapper', QgsMessageLog.INFO)
+            
+            request_url = 'https://api.zotero.org/users/%s/items/%s' % (self.userID, itemKey)
+            item_request = requests.get(request_url)
+            QgsMessageLog.logMessage("Item Request Response: %s" % item_request.status_code, 'LiteratureMapper', QgsMessageLog.INFO)
+            #item_json = json.load(urllib2.urlopen(request_url))
+        
+        """
+        
+        
+        item_json['data']['extra'] = extraString
+        item_json=json.dumps(item_json)
+        put_request = requests.put(request_url, data=item_json, headers={'Authorization': 'Bearer %s' % (apiKey), 'Content-Type': 'application/json'})
+        """
         pass
 
     def unload(self):
@@ -260,19 +280,19 @@ class LiteratureMapper:
             #apiKey = ''
             
             #Getting the variables the user entered
-            userID = self.dlg.lineEdit_UserID.text()
-            collectionID = self.dlg.lineEdit_CollectionKey.text()
-            apiKey = self.dlg.lineEdit_APIKey.text()
+            self.userID = self.dlg.lineEdit_UserID.text()
+            self.collectionID = self.dlg.lineEdit_CollectionKey.text()
+            self.apiKey = self.dlg.lineEdit_APIKey.text()
             
             #Log the numbers the user entered
-            QgsMessageLog.logMessage("User ID: %s" % userID, 'LiteratureMapper', QgsMessageLog.INFO)
-            QgsMessageLog.logMessage("Collection ID: %s" % collectionID, 'LiteratureMapper', QgsMessageLog.INFO)
-            QgsMessageLog.logMessage("API Key: %s" % apiKey, 'LiteratureMapper', QgsMessageLog.INFO)
+            QgsMessageLog.logMessage("User ID: %s" % self.userID, 'LiteratureMapper', QgsMessageLog.INFO)
+            QgsMessageLog.logMessage("Collection ID: %s" % self.collectionID, 'LiteratureMapper', QgsMessageLog.INFO)
+            QgsMessageLog.logMessage("API Key: %s" % self.apiKey, 'LiteratureMapper', QgsMessageLog.INFO)
             
             #Send a Get Request to test the connection and get the collection data
-            data = api_get(userID, collectionID)
+            data = api_get(self.userID, self.collectionID)
             data_parsed = parse_zotero(data)
-            data_json = data_get(userID, collectionID)
+            data_json = data_get(self.userID, self.collectionID)
                         
             #if the server response = 200, start the window that records geometry from map canvas clicks.
             if data.status_code == 200:
@@ -310,6 +330,7 @@ class LiteratureMapper:
                 # TODO: Docable or auto switch back to the table after canvas click
                 # TODO: Transform coordinates if not in WGS84
                 # TODO: Hand-entering the X & Y
+                # TODO: Make other table columns uneditable: http://stackoverflow.com/questions/2574115/qt-how-to-make-a-column-in-qtablewidget-read-only
                 
             else:
                 self.iface.messageBar().pushMessage("Zotero cannot connect. Check the IDs you entered and try again.", level=1)

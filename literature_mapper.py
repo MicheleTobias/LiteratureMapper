@@ -212,8 +212,14 @@ class LiteratureMapper:
             item_json=json.dumps(item_json)
             put_request = requests.put(request_url, data=item_json, headers={'Authorization': 'Bearer %s' % (self.apiKey), 'Content-Type': 'application/json'})
             QgsMessageLog.logMessage("Put Response: %s" % put_request.status_code, 'LiteratureMapper', QgsMessageLog.INFO)
-            # TODO: add a loop that checks if the server is happy
-            # TODO: when done, post a message box that says it worked
+            statuscode = put_request.status_code
+        # Message bar for result
+        # TODO: make it check all the results, not just the last one
+        if statuscode == 204:
+            self.iface.messageBar().pushMessage("Locations saved to Zotero.", level=4)
+            #QMessageBox.information(self.dlgTable(),"Info", "Locations Saved")
+        else:
+            self.iface.messageBar().pushMessage("Locations saved to Zotero.", level=3)
         
 
     def unload(self):
@@ -254,8 +260,8 @@ class LiteratureMapper:
         if result == 1:
             # send the API request
             #function to send a get request  # arrange the input into an API call that checks with Zotero 
-            def api_get(userID, collectionID):
-                api_url = 'https://api.zotero.org/users/%s/collections/%s/items?v=3' % (userID, collectionID)
+            def api_get(userID, collectionID, apiKey):
+                api_url = 'https://api.zotero.org/users/%s/collections/%s/items?key=%s' % (userID, collectionID, apiKey)
                 zotero_response = requests.get(api_url)
                 #print zotero_response.status_code
                 return zotero_response
@@ -288,13 +294,13 @@ class LiteratureMapper:
             QgsMessageLog.logMessage("API Key: %s" % self.apiKey, 'LiteratureMapper', QgsMessageLog.INFO)
             
             #Send a Get Request to test the connection and get the collection data
-            data = api_get(self.userID, self.collectionID)
+            data = api_get(self.userID, self.collectionID, self.apiKey)
             data_parsed = parse_zotero(data)
             data_json = data_get(self.userID, self.collectionID)
                         
             #if the server response = 200, start the window that records geometry from map canvas clicks.
             if data.status_code == 200:
-                self.iface.messageBar().pushMessage("Zotero is ready!", level=1)
+                #self.iface.messageBar().pushMessage("Zotero is ready!", level=1)
                 #open a new interface
                 self.dlgTable.show()
                 
@@ -321,20 +327,24 @@ class LiteratureMapper:
                     self.dlgTable.tableWidget_Zotero.setItem(i, 2, QTableWidgetItem(author_list[2 : len(author_list)]))
                     title = QTableWidgetItem(record['data']['title'])
                     self.dlgTable.tableWidget_Zotero.setItem(i, 3, title)
-                #for i, record in enumerate(data_json):
-                 #   for j, element in enumerate(record):
-                  #      item = QTableWidgetItem(record['data'][element])
-                   #     self.dlgTable.tableWidget_Zotero.setItem(i, j, item)              
+                    # pre-populate the table with anything already in the Extra field
+                    if 'extra' in record['data']:
+                        extra = QTableWidgetItem(record['data']['extra'])
+                    else:
+                        extra = QTableWidgetItem("")
+                    self.dlgTable.tableWidget_Zotero.setItem(i, 4, extra)
+
                 
-                #get location from mouse click --> happens in another part of the code above
-                
+                # FUNCTIONALITY
                 # TODO: Put points on the map canvas
-                # TODO: Save Shapefile option
-                # TODO: Dockable or auto switch back to the table after canvas click
                 # TODO: Transform coordinates if not in WGS84
+                # TODO: Save Shapefile option
+                
+                # USABILITY
+                # TODO: Dockable or auto switch back to the table after canvas click
+                # TODO: Make table resizable
                 # TODO: Make other table columns uneditable: http://stackoverflow.com/questions/2574115/qt-how-to-make-a-column-in-qtablewidget-read-only
                 # TODO: Documentation
-                # TODO: Populate the table with any exisiting geometries
                 
             else:
                 self.iface.messageBar().pushMessage("Zotero cannot connect. Check the IDs you entered and try again.", level=1)

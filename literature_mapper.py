@@ -75,7 +75,7 @@ class LiteratureMapper:
         # Declare instance attributes
         self.actions = []
         self.menu = self.tr(u'&Literature Mapper')
-        # TODO: We are going to let the user set this up in a future iteration
+
         self.toolbar = self.iface.addToolBar(u'LiteratureMapper')
         self.toolbar.setObjectName(u'LiteratureMapper')
 
@@ -307,7 +307,7 @@ class LiteratureMapper:
                 #put the data into a table in the interface
                 self.dlgTable.tableWidget_Zotero.setRowCount(len(data_json))
                 self.dlgTable.tableWidget_Zotero.verticalHeader().setVisible(False)
-                
+
                 for i, record in enumerate(data_json):
                     key = QTableWidgetItem(record['data']['key'])
                     self.dlgTable.tableWidget_Zotero.setItem(i, 0, key)
@@ -336,9 +336,9 @@ class LiteratureMapper:
 
                 
                 # FUNCTIONALITY
-                # TODO: Put points on the map canvas
-                # TODO: Transform coordinates if not in WGS84
-                # TODO: Save Shapefile option
+                # TODO: Put points on the map canvas: http://docs.qgis.org/testing/en/docs/pyqgis_developer_cookbook/canvas.html#rubber-bands-and-vertex-markers
+                # TODO: Transform coordinates if not in WGS84: http://docs.qgis.org/testing/en/docs/pyqgis_developer_cookbook/crs.html
+                # TODO: Save Shapefile option: maybe build the geoJSON from the database then convert to a shapefile?
                 
                 # USABILITY
                 # TODO: Dockable or auto switch back to the table after canvas click
@@ -350,12 +350,3 @@ class LiteratureMapper:
                 self.iface.messageBar().pushMessage("Zotero cannot connect. Check the IDs you entered and try again.", level=1)
 
 
-               
-            # Pull in a list of citations from the collection specified
-            # Put the citations into a table
-            # Select a citation in the table, then let the user click to add the geometry to the appropriate column.
-            
-            
-            #from urllib2 import urlopen #API library?
-            #import json #json parsing library
-            #pass

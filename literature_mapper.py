@@ -191,7 +191,12 @@ class LiteratureMapper:
         # get mouse click X & Y
         # put X & Y in the cell - 
         self.dlgTable.tableWidget_Zotero.setItem(self.dlgTable.tableWidget_Zotero.currentRow(),4,QTableWidgetItem('{"type": "Point", "coordinates": [%s, %s]}' % (str(point.x()),str(point.y()))))
-        # --TODO: finess the geometry string into a geoJSON geometry string
+        #self.dlgTable.show()
+        #self.dlgTable.raise()
+        
+        # Make the plugin come back to the top
+        self.dlgTable.activateWindow()
+
         # TODO: accept other geometry types besides points
 
     def saveZotero(self):
@@ -333,7 +338,13 @@ class LiteratureMapper:
                     else:
                         extra = QTableWidgetItem("")
                     self.dlgTable.tableWidget_Zotero.setItem(i, 4, extra)
-
+                
+                # Reize the cells to fit the contents - behaves badly with the title column
+                #self.dlgTable.tableWidget_Zotero.resizeRowsToContents()
+                
+                # Resize the Key and Year columns to fit the width of the contents
+                self.dlgTable.tableWidget_Zotero.resizeColumnToContents(0)
+                self.dlgTable.tableWidget_Zotero.resizeColumnToContents(1)
                 
                 # FUNCTIONALITY
                 # TODO: Put points on the map canvas: http://docs.qgis.org/testing/en/docs/pyqgis_developer_cookbook/canvas.html#rubber-bands-and-vertex-markers
@@ -342,9 +353,9 @@ class LiteratureMapper:
                 
                 # USABILITY
                 # TODO: Dockable or auto switch back to the table after canvas click
-                # TODO: Make table resizable
                 # TODO: Make other table columns uneditable: http://stackoverflow.com/questions/2574115/qt-how-to-make-a-column-in-qtablewidget-read-only
                 # TODO: Documentation
+                # TODO: Fix Pan and zooming
                 
             else:
                 self.iface.messageBar().pushMessage("Zotero cannot connect. Check the IDs you entered and try again.", level=1)

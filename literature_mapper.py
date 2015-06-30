@@ -192,9 +192,16 @@ class LiteratureMapper:
         # get mouse click X & Y
         # put X & Y in the cell - 
         self.dlgTable.tableWidget_Zotero.setItem(self.dlgTable.tableWidget_Zotero.currentRow(),4,QTableWidgetItem('{"type": "Point", "coordinates": [%s, %s]}' % (str(point.x()),str(point.y()))))
-        #self.dlgTable.show()
-        #self.dlgTable.raise()
         
+        #put point in the memory shp
+        self.fet = QgsFeature()
+        self.fet.setGeometry(QgsGeometry.fromPoint(point))
+        #self.fet.setAttributes([key_str, year_str, author_list, title_str, extra_str])
+        self.fet.setAttributes(["test"])
+        self.pointProvider.addFeatures([self.fet])
+        self.pointLayer.updateExtents()
+        self.iface.mapCanvas().refresh()
+
         # Make the plugin come back to the top
         self.dlgTable.activateWindow()
 

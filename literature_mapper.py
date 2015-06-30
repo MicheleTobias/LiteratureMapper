@@ -20,7 +20,7 @@
  *                                                                         *
  ***************************************************************************/
 """
-from PyQt4.QtCore import QSettings, QTranslator, qVersion, QCoreApplication, QObject, SIGNAL
+from PyQt4.QtCore import QSettings, QTranslator, qVersion, QCoreApplication, QObject, SIGNAL, QVariant
 from PyQt4.QtGui import QAction, QIcon, QTableWidget, QTableWidgetItem, QMessageBox
 # Initialize Qt resources from file resources.py
 import resources_rc
@@ -29,7 +29,7 @@ from literature_mapper_dialog import LiteratureMapperDialog, TableInterface
 import os.path
 import json #json parsing library  simplejson simplejson.load(json string holding variable)
 import requests
-from qgis.core import QgsMessageLog
+from qgis.core import *
 import urllib2
 from qgis.gui import *
 
@@ -315,12 +315,30 @@ class LiteratureMapper:
                 #put the data into a table in the interface
                 self.dlgTable.tableWidget_Zotero.setRowCount(len(data_json))
                 self.dlgTable.tableWidget_Zotero.verticalHeader().setVisible(False)
+                
+                #Create the empty shapefile memory layer
+                self.pointLayer = QgsVectorLayer("Point", "LiteraturePoints", "memory")
+                self.pointProvider = self.pointLayer.dataProvider()
+                QgsMapLayerRegistry.instance().addMapLayer(self.pointLayer)
+                # add fields
+                self.pointProvider.addAttributes([QgsField("Key", QVariant.String),
+                    QgsField("Year",  QVariant.Int),
+                    QgsField("Author", QVariant.String),
+                    QgsField("Title", QVariant.String),
+                    QgsField("Geometry", QVariant.String)
+                    ])
+                self.pointLayer.updateFields() # tell the vector layer to fetch changes from the provider
+
 
                 for i, record in enumerate(data_json):
                     key = QTableWidgetItem(record['data']['key'])
                     self.dlgTable.tableWidget_Zotero.setItem(i, 0, key)
+                    key_str = record['data']['key']
+                    
                     year = QTableWidgetItem(record['data']['date'])
                     self.dlgTable.tableWidget_Zotero.setItem(i, 1, year)
+                    year_str = record['data']['date']
+                    
                     author_list = ""
                     # Handle different athor types - Human has lastName, Corporate has name, Others get a blank because they are presumably blanks
                     for j, author in enumerate(record['data']['creators']):
@@ -332,15 +350,36 @@ class LiteratureMapper:
                             new_author = ""
                             
                         author_list = author_list + ', ' + new_author
-                    self.dlgTable.tableWidget_Zotero.setItem(i, 2, QTableWidgetItem(author_list[2 : len(author_list)]))
+                    author_list = author_list[2 : len(author_list)]
+                    self.dlgTable.tableWidget_Zotero.setItem(i, 2, QTableWidgetItem(author_list))
+                    
                     title = QTableWidgetItem(record['data']['title'])
                     self.dlgTable.tableWidget_Zotero.setItem(i, 3, title)
+                    title_str = record['data']['title']
+                    
                     # pre-populate the table with anything already in the Extra field
                     if 'extra' in record['data']:
                         extra = QTableWidgetItem(record['data']['extra'])
+                        
+                        extra_str = record['data']['extra']
+                        check_text = '"type": "Point"'
+                        if extra_str[1:16] == check_text:
+                            coords = extra_str[extra_str.find('['): extra_str.find(']')+1]
+                            x = float(coords[1:coords.find(',')])
+                            y = float(coords[coords.find(',')+1:coords.find(']')])
+                            #put records with existing geometries into the virtual shapefile attribute table
+                            self.fet = QgsFeature()
+                            self.fet.setGeometry(QgsGeometry.fromPoint(QgsPoint(x,y)))
+                            self.fet.setAttributes([key_str, year_str, author_list, title_str, extra_str])
+                            self.pointProvider.addFeatures([self.fet])
+                            self.pointLayer.updateExtents()
+                        else:
+                            x = ''
                     else:
                         extra = QTableWidgetItem("")
                     self.dlgTable.tableWidget_Zotero.setItem(i, 4, extra)
+                    
+
                 
                 # Reize the cells to fit the contents - behaves badly with the title column
                 #self.dlgTable.tableWidget_Zotero.resizeRowsToContents()
@@ -350,7 +389,7 @@ class LiteratureMapper:
                 self.dlgTable.tableWidget_Zotero.resizeColumnToContents(1)
                 
                 # FUNCTIONALITY
-                # TODO: Put points on the map canvas: http://docs.qgis.org/testing/en/docs/pyqgis_developer_cookbook/canvas.html#rubber-bands-and-vertex-markers  Memory Layers: http://gis.stackexchange.com/questions/72877/how-to-load-a-memory-layer-into-map-canvas-an-zoom-to-it-with-pyqgis
+                # TODO: Put points on the map canvas: http://docs.qgis.org/testing/en/docs/pyqgis_developer_cookbook/canvas.html#rubber-bands-and-vertex-markers  Memory Layers: http://gis.stackexchange.com/questions/72877/how-to-load-a-memory-layer-into-map-canvas-an-zoom-to-it-with-pyqgis  http://docs.qgis.org/testing/en/docs/pyqgis_developer_cookbook/vector.html#memory-provider
                 # TODO: Transform coordinates if not in WGS84: http://docs.qgis.org/testing/en/docs/pyqgis_developer_cookbook/crs.html
                 # TODO: Save Shapefile option: maybe build the geoJSON from the database then convert to a shapefile?
                 

@@ -182,7 +182,7 @@ class LiteratureMapper:
         result = QObject.connect(self.clickTool, SIGNAL("canvasClicked(const QgsPoint &, Qt::MouseButton)"), self.handleMouseDown)
         #QMessageBox.information( self.iface.mainWindow(),"Info", "connect = %s"%str(result) )
         QObject.connect(self.dlgTable.pushButton_Save, SIGNAL("clicked()"), self.saveZotero)
-        QObject.connect(self.dlgTable.pushButton_Show, SIGNAL("clicked()"), self.showPoints)
+        #QObject.connect(self.dlgTable.pushButton_Show, SIGNAL("clicked()"), self.showPoints)
     
     # Function to record a mouse click - works with the above code
     # change this so it puts the point in the table
@@ -197,7 +197,12 @@ class LiteratureMapper:
         self.fet = QgsFeature()
         self.fet.setGeometry(QgsGeometry.fromPoint(point))
         #self.fet.setAttributes([key_str, year_str, author_list, title_str, extra_str])
-        self.fet.setAttributes(["test"])
+        self.fet.setAttributes(
+        [self.dlgTable.tableWidget_Zotero.item(self.dlgTable.tableWidget_Zotero.currentRow(),0).text(),
+        self.dlgTable.tableWidget_Zotero.item(self.dlgTable.tableWidget_Zotero.currentRow(),1).text(),
+        self.dlgTable.tableWidget_Zotero.item(self.dlgTable.tableWidget_Zotero.currentRow(),2).text(),
+        self.dlgTable.tableWidget_Zotero.item(self.dlgTable.tableWidget_Zotero.currentRow(),3).text(),
+        self.dlgTable.tableWidget_Zotero.item(self.dlgTable.tableWidget_Zotero.currentRow(),4).text()])
         self.pointProvider.addFeatures([self.fet])
         self.pointLayer.updateExtents()
         self.iface.mapCanvas().refresh()
@@ -234,8 +239,8 @@ class LiteratureMapper:
         else:
             self.iface.messageBar().pushMessage("Locations saved to Zotero.", level=3)
 
-    def showPoints(self):
-        self.iface.messageBar().pushMessage("This button doesn't do anything yet.", level=3)
+    #def showPoints(self):
+        #self.iface.messageBar().pushMessage("This button doesn't do anything yet.", level=3)
 
     def unload(self):
         """Removes the plugin menu item and icon from QGIS GUI."""

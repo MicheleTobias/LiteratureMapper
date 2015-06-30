@@ -182,6 +182,7 @@ class LiteratureMapper:
         result = QObject.connect(self.clickTool, SIGNAL("canvasClicked(const QgsPoint &, Qt::MouseButton)"), self.handleMouseDown)
         #QMessageBox.information( self.iface.mainWindow(),"Info", "connect = %s"%str(result) )
         QObject.connect(self.dlgTable.pushButton_Save, SIGNAL("clicked()"), self.saveZotero)
+        QObject.connect(self.dlgTable.pushButton_Show, SIGNAL("clicked()"), self.showPoints)
     
     # Function to record a mouse click - works with the above code
     # change this so it puts the point in the table
@@ -225,7 +226,9 @@ class LiteratureMapper:
             #QMessageBox.information(self.dlgTable(),"Info", "Locations Saved")
         else:
             self.iface.messageBar().pushMessage("Locations saved to Zotero.", level=3)
-        
+
+    def showPoints(self):
+        self.iface.messageBar().pushMessage("This button doesn't do anything yet.", level=3)
 
     def unload(self):
         """Removes the plugin menu item and icon from QGIS GUI."""
@@ -347,7 +350,7 @@ class LiteratureMapper:
                 self.dlgTable.tableWidget_Zotero.resizeColumnToContents(1)
                 
                 # FUNCTIONALITY
-                # TODO: Put points on the map canvas: http://docs.qgis.org/testing/en/docs/pyqgis_developer_cookbook/canvas.html#rubber-bands-and-vertex-markers
+                # TODO: Put points on the map canvas: http://docs.qgis.org/testing/en/docs/pyqgis_developer_cookbook/canvas.html#rubber-bands-and-vertex-markers  Memory Layers: http://gis.stackexchange.com/questions/72877/how-to-load-a-memory-layer-into-map-canvas-an-zoom-to-it-with-pyqgis
                 # TODO: Transform coordinates if not in WGS84: http://docs.qgis.org/testing/en/docs/pyqgis_developer_cookbook/crs.html
                 # TODO: Save Shapefile option: maybe build the geoJSON from the database then convert to a shapefile?
                 

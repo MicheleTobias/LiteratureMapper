@@ -180,17 +180,14 @@ class LiteratureMapper:
         
         # For clicking on the canvas - checks to see if a click happened
         result = QObject.connect(self.clickTool, SIGNAL("canvasClicked(const QgsPoint &, Qt::MouseButton)"), self.handleMouseDown)
-        #QMessageBox.information( self.iface.mainWindow(),"Info", "connect = %s"%str(result) )
+            
+        # Signal for Saving data to Zotero
         QObject.connect(self.dlgTable.pushButton_Save, SIGNAL("clicked()"), self.saveZotero)
-        #QObject.connect(self.dlgTable.pushButton_Show, SIGNAL("clicked()"), self.showPoints)
+
     
-    # Function to record a mouse click - works with the above code
-    # change this so it puts the point in the table
+
     def handleMouseDown(self, point, button):
-        #QMessageBox.information( self.iface.mainWindow(),"Info", "X,Y = %s,%s" % (str(point.x()),str(point.y())) )
-        # get active table cell
-        # get mouse click X & Y
-        # put X & Y in the cell - 
+        # Function to record a mouse click - works with the above code
         self.dlgTable.tableWidget_Zotero.setItem(self.dlgTable.tableWidget_Zotero.currentRow(),4,QTableWidgetItem('{"type": "Point", "coordinates": [%s, %s]}' % (str(point.x()),str(point.y()))))
         
         #put point in the memory shp
@@ -214,7 +211,6 @@ class LiteratureMapper:
 
     def saveZotero(self):
         #Write what happens to save to zotero here
-        #rows = range(0, 5)
         rows = range(0, QTableWidget.rowCount(self.dlgTable.tableWidget_Zotero))
         for row in rows:
             #get the itemID(zotero key) and geometry cells from the table - itemAt(x,y)
@@ -237,10 +233,8 @@ class LiteratureMapper:
             self.iface.messageBar().pushMessage("Locations saved to Zotero.", level=4)
             #QMessageBox.information(self.dlgTable(),"Info", "Locations Saved")
         else:
-            self.iface.messageBar().pushMessage("Locations saved to Zotero.", level=3)
+            self.iface.messageBar().pushMessage("Failed to save locations to Zotero", level=3)
 
-    #def showPoints(self):
-        #self.iface.messageBar().pushMessage("This button doesn't do anything yet.", level=3)
 
     def unload(self):
         """Removes the plugin menu item and icon from QGIS GUI."""
@@ -403,13 +397,15 @@ class LiteratureMapper:
                 # FUNCTIONALITY
                 # TODO: Put points on the map canvas: http://docs.qgis.org/testing/en/docs/pyqgis_developer_cookbook/canvas.html#rubber-bands-and-vertex-markers  Memory Layers: http://gis.stackexchange.com/questions/72877/how-to-load-a-memory-layer-into-map-canvas-an-zoom-to-it-with-pyqgis  http://docs.qgis.org/testing/en/docs/pyqgis_developer_cookbook/vector.html#memory-provider
                 # TODO: Transform coordinates if not in WGS84: http://docs.qgis.org/testing/en/docs/pyqgis_developer_cookbook/crs.html
-                # TODO: Save Shapefile option: maybe build the geoJSON from the database then convert to a shapefile?
+                # TODO: Pan and zooming while digitizing
+                # TODO: update points in the memory shp don't just add new ones
                 
                 # USABILITY
+                # TODO: Speed up saving to Zotero - will sending one query be quicker?  How does the version stuff work?
                 # TODO: Dockable or auto switch back to the table after canvas click
                 # TODO: Make other table columns uneditable: http://stackoverflow.com/questions/2574115/qt-how-to-make-a-column-in-qtablewidget-read-only
                 # TODO: Documentation
-                # TODO: Fix Pan and zooming
+                
                 
             else:
                 self.iface.messageBar().pushMessage("Zotero cannot connect. Check the IDs you entered and try again.", level=1)

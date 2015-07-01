@@ -178,13 +178,14 @@ class LiteratureMapper:
             callback=self.run,
             parent=self.iface.mainWindow())
         
-        # For clicking on the canvas - checks to see if a click happened
-        result = QObject.connect(self.clickTool, SIGNAL("canvasClicked(const QgsPoint &, Qt::MouseButton)"), self.handleMouseDown)
+        # Signal for clicking on the canvas
+        #result = QObject.connect(self.clickTool, SIGNAL("canvasClicked(const QgsPoint &, Qt::MouseButton)"), self.handleMouseDown)
             
         # Signal for Saving data to Zotero
         QObject.connect(self.dlgTable.pushButton_Save, SIGNAL("clicked()"), self.saveZotero)
-
-    
+        
+        # Signal for Point digitizing button
+        QObject.connect(self.dlgTable.pushButton_Point, SIGNAL("clicked()"), self.digitizePoint)
 
     def handleMouseDown(self, point, button):
         # Function to record a mouse click - works with the above code
@@ -235,6 +236,9 @@ class LiteratureMapper:
         else:
             self.iface.messageBar().pushMessage("Failed to save locations to Zotero", level=3)
 
+    def digitizePoint(self):
+        QObject.connect(self.clickTool, SIGNAL("canvasClicked(const QgsPoint &, Qt::MouseButton)"), self.handleMouseDown)
+        pass
 
     def unload(self):
         """Removes the plugin menu item and icon from QGIS GUI."""

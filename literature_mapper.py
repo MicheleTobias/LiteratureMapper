@@ -186,6 +186,8 @@ class LiteratureMapper:
         
         # Signal for Point digitizing button
         QObject.connect(self.dlgTable.pushButton_Point, SIGNAL("clicked()"), self.digitizePoint)
+        # Signal for Multipoint digitizing button
+        QObject.connect(self.dlgTable.pushButton_Multipoint, SIGNAL("clicked()"), self.digitizeMultipoint)
 
     def handleMouseDown(self, point, button):
         # Function to record a mouse click - works with the above code
@@ -238,7 +240,37 @@ class LiteratureMapper:
 
     def digitizePoint(self):
         QObject.connect(self.clickTool, SIGNAL("canvasClicked(const QgsPoint &, Qt::MouseButton)"), self.handleMouseDown)
-        pass
+        
+    def handleMouseDownTwo(self, point):
+        x = point.x()
+        y = point.y()
+        newPoint = [x, y]
+        self.pointList.append(newPoint)
+        
+        QgsMessageLog.logMessage("x: %s ... y: %s" % (x, y), 'LiteratureMapper', QgsMessageLog.INFO)
+        QgsMessageLog.logMessage("x: %s ... y: %s" % (type(x), type(y)), 'LiteratureMapper', QgsMessageLog.INFO)
+        QgsMessageLog.logMessage("newPoint: %s" % newPoint, 'LiteratureMapper', QgsMessageLog.INFO)
+        QgsMessageLog.logMessage("newPoint: %s" % type(newPoint), 'LiteratureMapper', QgsMessageLog.INFO)
+        QgsMessageLog.logMessage("self.pointList: %s" % self.pointList, 'LiteratureMapper', QgsMessageLog.INFO)
+        
+        #QObject.connect(self.clickTool, SIGNAL("canvasDoubleClicked()"), self.handleMouseDownTwoFinish)
+        
+
+    def handleMouseDownTwoFinish(self, pointList):
+        self.dlgTable.tableWidget_Zotero.setItem(self.dlgTable.tableWidget_Zotero.currentRow(),4,QTableWidgetItem('{"type": "Multipoint", "coordinates": %s}' % self.pointList))
+        # TODO: Fix double click signal
+        # TODO: put the multipoints into a memory shp
+        # TODO: populate the multipoint memory shp with existing multipoints
+    
+    def digitizeMultipoint(self):
+        #Empty list for storing points for digitizing
+        self.pointList = []
+        QgsMessageLog.logMessage("self.pointList: %s" % self.pointList, 'LiteratureMapper', QgsMessageLog.INFO)
+        QgsMessageLog.logMessage("self.pointList: %s" % type(self.pointList), 'LiteratureMapper', QgsMessageLog.INFO)
+        #resultMultipoint = QObject.connect(self.clickTool, SIGNAL("canvasClicked(const QgsPoint)"), self.handleMouseDownTwo)
+        QObject.connect(self.clickTool, SIGNAL("canvasClicked(const QgsPoint &, Qt::MouseButton)"), self.handleMouseDownTwo)
+        QObject.connect(self.clickTool, SIGNAL("canvasDoubleClicked()"), self.handleMouseDownTwoFinish)
+
 
     def unload(self):
         """Removes the plugin menu item and icon from QGIS GUI."""
@@ -274,6 +306,8 @@ class LiteratureMapper:
         result = self.dlg.exec_()
         self.store()
         # See if OK was pressed
+        
+
         
         if result == 1:
             # send the API request
@@ -401,12 +435,10 @@ class LiteratureMapper:
                 # FUNCTIONALITY
                 # TODO: Put points on the map canvas: http://docs.qgis.org/testing/en/docs/pyqgis_developer_cookbook/canvas.html#rubber-bands-and-vertex-markers  Memory Layers: http://gis.stackexchange.com/questions/72877/how-to-load-a-memory-layer-into-map-canvas-an-zoom-to-it-with-pyqgis  http://docs.qgis.org/testing/en/docs/pyqgis_developer_cookbook/vector.html#memory-provider
                 # TODO: Transform coordinates if not in WGS84: http://docs.qgis.org/testing/en/docs/pyqgis_developer_cookbook/crs.html
-                # TODO: Pan and zooming while digitizing
                 # TODO: update points in the memory shp don't just add new ones
                 
                 # USABILITY
                 # TODO: Speed up saving to Zotero - will sending one query be quicker?  How does the version stuff work?
-                # TODO: Dockable or auto switch back to the table after canvas click
                 # TODO: Make other table columns uneditable: http://stackoverflow.com/questions/2574115/qt-how-to-make-a-column-in-qtablewidget-read-only
                 # TODO: Documentation
                 

@@ -20,7 +20,7 @@
  *                                                                         *
  ***************************************************************************/
 """
-from PyQt4.QtCore import QSettings, QTranslator, qVersion, QCoreApplication, QObject, SIGNAL, QVariant
+from PyQt4.QtCore import QSettings, QTranslator, qVersion, QCoreApplication, QObject, SIGNAL, QVariant, pyqtSignal
 from PyQt4.QtGui import QAction, QIcon, QTableWidget, QTableWidgetItem, QMessageBox
 # Initialize Qt resources from file resources.py
 import resources_rc
@@ -33,6 +33,11 @@ from qgis.core import *
 import urllib2
 from qgis.gui import *
 
+class MapToolEmitPoint(QgsMapToolEmitPoint):
+    canvasDoubleClicked = pyqtSignal()
+    
+    def canvasDoubleClickedEvent:
+        self.canvasDoubleClicked.emit()
 
 class LiteratureMapper:
     """QGIS Plugin Implementation."""
@@ -253,10 +258,11 @@ class LiteratureMapper:
         QgsMessageLog.logMessage("newPoint: %s" % type(newPoint), 'LiteratureMapper', QgsMessageLog.INFO)
         QgsMessageLog.logMessage("self.pointList: %s" % self.pointList, 'LiteratureMapper', QgsMessageLog.INFO)
         
-        #QObject.connect(self.clickTool, SIGNAL("canvasDoubleClicked()"), self.handleMouseDownTwoFinish)
+        QObject.connect(self.clickTool, SIGNAL("canvasDoubleClicked(const QgsPoint &, Qt::MouseButton)"), self.handleMouseDownTwoFinish)
+        #Needs a special implementation of canvasDoubleClicked because it is a virtual method and needs to be told what to do.  http://stackoverflow.com/questions/19973188/emit-and-catch-double-click-signals-from-qgsmapcanvas
         
 
-    def handleMouseDownTwoFinish(self, pointList):
+    def handleMouseDownTwoFinish(self):
         self.dlgTable.tableWidget_Zotero.setItem(self.dlgTable.tableWidget_Zotero.currentRow(),4,QTableWidgetItem('{"type": "Multipoint", "coordinates": %s}' % self.pointList))
         # TODO: Fix double click signal
         # TODO: put the multipoints into a memory shp
@@ -269,7 +275,7 @@ class LiteratureMapper:
         QgsMessageLog.logMessage("self.pointList: %s" % type(self.pointList), 'LiteratureMapper', QgsMessageLog.INFO)
         #resultMultipoint = QObject.connect(self.clickTool, SIGNAL("canvasClicked(const QgsPoint)"), self.handleMouseDownTwo)
         QObject.connect(self.clickTool, SIGNAL("canvasClicked(const QgsPoint &, Qt::MouseButton)"), self.handleMouseDownTwo)
-        QObject.connect(self.clickTool, SIGNAL("canvasDoubleClicked()"), self.handleMouseDownTwoFinish)
+        #QObject.connect(self.clickTool, SIGNAL("canvasDoubleClicked()"), self.handleMouseDownTwoFinish)
 
 
     def unload(self):

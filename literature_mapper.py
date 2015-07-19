@@ -264,7 +264,12 @@ class LiteratureMapper:
         #Needs a special implementation of canvasDoubleClicked because it is a virtual method and needs to be told what to do.  http://stackoverflow.com/questions/19973188/emit-and-catch-double-click-signals-from-qgsmapcanvas
         
     def handleFinishMultipoint(self):
-        self.dlgTable.tableWidget_Zotero.setItem(self.dlgTable.tableWidget_Zotero.currentRow(),4,QTableWidgetItem('{"type": "Multipoint", "coordinates": %s}' % self.pointList))
+        try:
+            self.pointList
+        except:
+            pass
+        else:
+            self.dlgTable.tableWidget_Zotero.setItem(self.dlgTable.tableWidget_Zotero.currentRow(),4,QTableWidgetItem('{"type": "Multipoint", "coordinates": %s}' % self.pointList))
         
     def handleMouseDownMultipointFinish(self):
         self.dlgTable.tableWidget_Zotero.setItem(self.dlgTable.tableWidget_Zotero.currentRow(),4,QTableWidgetItem('{"type": "Multipoint", "coordinates": %s}' % self.pointList))

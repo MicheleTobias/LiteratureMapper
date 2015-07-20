@@ -375,8 +375,8 @@ class LiteratureMapper:
                 self.dlgTable.tableWidget_Zotero.setRowCount(len(data_json))
                 self.dlgTable.tableWidget_Zotero.verticalHeader().setVisible(False)
                 
-                #Create the empty shapefile memory layer
-                self.pointLayer = QgsVectorLayer("Point", "LiteraturePoints", "memory")
+                #Create the empty Point shapefile memory layer
+                self.pointLayer = QgsVectorLayer("Point", "Literature_Points", "memory")
                 self.pointProvider = self.pointLayer.dataProvider()
                 QgsMapLayerRegistry.instance().addMapLayer(self.pointLayer)
                 # add fields
@@ -387,8 +387,20 @@ class LiteratureMapper:
                     QgsField("Geometry", QVariant.String)
                     ])
                 self.pointLayer.updateFields() # tell the vector layer to fetch changes from the provider
-
-
+                
+                #Create the empty shapefile memory layer
+                self.multipointLayer = QgsVectorLayer("Multipoint", "Literature_Multipoints", "memory")
+                self.multipointProvider = self.multipointLayer.dataProvider()
+                QgsMapLayerRegistry.instance().addMapLayer(self.multipointLayer)
+                # add fields
+                self.multipointProvider.addAttributes([QgsField("Key", QVariant.String),
+                    QgsField("Year",  QVariant.Int),
+                    QgsField("Author", QVariant.String),
+                    QgsField("Title", QVariant.String),
+                    QgsField("Geometry", QVariant.String)
+                    ])
+                self.multipointLayer.updateFields() # tell the vector layer to fetch changes from the provider
+                
                 for i, record in enumerate(data_json):
                     key = QTableWidgetItem(record['data']['key'])
                     self.dlgTable.tableWidget_Zotero.setItem(i, 0, key)
@@ -421,8 +433,9 @@ class LiteratureMapper:
                         extra = QTableWidgetItem(record['data']['extra'])
                         
                         extra_str = record['data']['extra']
-                        check_text = '"type": "Point"'
-                        if extra_str[1:16] == check_text:
+                        check_point = '"type": "Point"'
+                        check_multipoint = '"type": "Multi"'
+                        if extra_str[1:16] == check_point:
                             coords = extra_str[extra_str.find('['): extra_str.find(']')+1]
                             x = float(coords[1:coords.find(',')])
                             y = float(coords[coords.find(',')+1:coords.find(']')])
@@ -432,6 +445,16 @@ class LiteratureMapper:
                             self.fet.setAttributes([key_str, year_str, author_list, title_str, extra_str])
                             self.pointProvider.addFeatures([self.fet])
                             self.pointLayer.updateExtents()
+                        elif extra_str[1:16] == check_multipoint:
+                            coords = extra_str[extra_str.find('['): extra_str.find(']')+1]
+                            x = float(coords[1:coords.find(',')])
+                            y = float(coords[coords.find(',')+1:coords.find(']')])
+                            #put records with existing geometries into the virtual shapefile attribute table
+                            self.fet = QgsFeature()
+                            self.fet.setGeometry(QgsGeometry.fromPoint(QgsPoint(x,y)))
+                            self.fet.setAttributes([key_str, year_str, author_list, title_str, extra_str])
+                            self.multipointProvider.addFeatures([self.fet])
+                            self.multipointLayer.updateExtents()
                         else:
                             x = ''
                     else:

@@ -194,7 +194,7 @@ class LiteratureMapper:
         # Signal for Multipoint digitizing button
         QObject.connect(self.dlgTable.pushButton_Multipoint, SIGNAL("clicked()"), self.digitizeMultipoint)
         # Signal for Finish Multipoint digitizing button
-        QObject.connect(self.dlgTable.pushButton_FinishMultipoint, SIGNAL("clicked()"), self.handleFinishMultipoint)
+        #QObject.connect(self.dlgTable.pushButton_FinishMultipoint, SIGNAL("clicked()"), self.handleFinishMultipoint)
 
     def handleMouseDown(self, point, button):
         # Function to record a mouse click - works with the above code
@@ -260,16 +260,18 @@ class LiteratureMapper:
         QgsMessageLog.logMessage("newPoint: %s" % type(newPoint), 'LiteratureMapper', QgsMessageLog.INFO)
         QgsMessageLog.logMessage("self.pointList: %s" % self.pointList, 'LiteratureMapper', QgsMessageLog.INFO)
         
-        QObject.connect(self.clickTool, SIGNAL("canvasDoubleClicked(const QgsPoint &, Qt::MouseButton)"), self.handleMouseDownMultipointFinish)
+        self.dlgTable.tableWidget_Zotero.setItem(self.dlgTable.tableWidget_Zotero.currentRow(),4,QTableWidgetItem('{"type": "Multipoint", "coordinates": %s}' % self.pointList))
+        
+        #QObject.connect(self.clickTool, SIGNAL("canvasDoubleClicked(const QgsPoint &, Qt::MouseButton)"), self.handleMouseDownMultipointFinish)
         #Needs a special implementation of canvasDoubleClicked because it is a virtual method and needs to be told what to do.  http://stackoverflow.com/questions/19973188/emit-and-catch-double-click-signals-from-qgsmapcanvas
         
-    def handleFinishMultipoint(self):
-        try:
-            self.pointList
-        except:
-            pass
-        else:
-            self.dlgTable.tableWidget_Zotero.setItem(self.dlgTable.tableWidget_Zotero.currentRow(),4,QTableWidgetItem('{"type": "Multipoint", "coordinates": %s}' % self.pointList))
+    # def handleFinishMultipoint(self):
+    #     try:
+    #         self.pointList
+    #     except:
+    #         pass
+    #     else:
+    #         self.dlgTable.tableWidget_Zotero.setItem(self.dlgTable.tableWidget_Zotero.currentRow(),4,QTableWidgetItem('{"type": "Multipoint", "coordinates": %s}' % self.pointList))
         
     def handleMouseDownMultipointFinish(self):
         self.dlgTable.tableWidget_Zotero.setItem(self.dlgTable.tableWidget_Zotero.currentRow(),4,QTableWidgetItem('{"type": "Multipoint", "coordinates": %s}' % self.pointList))

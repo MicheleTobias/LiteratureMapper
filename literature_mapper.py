@@ -435,25 +435,32 @@ class LiteratureMapper:
                         extra = QTableWidgetItem(record['data']['extra'])
                         
                         extra_str = record['data']['extra']
+                        QgsMessageLog.logMessage("Extra String: %s" % extra_str, 'LiteratureMapper', QgsMessageLog.INFO)
                         check_point = '"type": "Point"'
-                        check_multipoint = '"type": "Multi"'
+                        check_multipoint = '"type": "Multip'
                         if extra_str[1:16] == check_point:
                             coords = extra_str[extra_str.find('['): extra_str.find(']')+1]
                             x = float(coords[1:coords.find(',')])
                             y = float(coords[coords.find(',')+1:coords.find(']')])
-                            #put records with existing geometries into the virtual shapefile attribute table
+                            #put records with existing geometries into the virtual Point shapefile attribute table
                             self.fet = QgsFeature()
                             self.fet.setGeometry(QgsGeometry.fromPoint(QgsPoint(x,y)))
                             self.fet.setAttributes([key_str, year_str, author_list, title_str, extra_str])
                             self.pointProvider.addFeatures([self.fet])
                             self.pointLayer.updateExtents()
                         elif extra_str[1:16] == check_multipoint:
-                            coords = extra_str[extra_str.find('['): extra_str.find(']')+1]
-                            x = float(coords[1:coords.find(',')])
-                            y = float(coords[coords.find(',')+1:coords.find(']')])
-                            #put records with existing geometries into the virtual shapefile attribute table
+                            #Alter to make a multipoint
+                            #Needs a loop to run through all the points?
+                            QgsMessageLog.logMessage("Made it into Multipoint Elif", 'LiteratureMapper', QgsMessageLog.INFO)
+                            # coords = extra_str[extra_str.find('['): extra_str.find(']')+1]
+                            # QgsMessageLog.logMessage("Multipoint Coords: %s" % coords, 'LiteratureMapper', QgsMessageLog.INFO)
+                            # x = float(coords[1:coords.find(',')])
+                            # y = float(coords[coords.find(',')+1:coords.find(']')])
+                            #put records with existing geometries into the virtual Multipoint shapefile attribute table
                             self.fet = QgsFeature()
-                            self.fet.setGeometry(QgsGeometry.fromPoint(QgsPoint(x,y)))
+                            #does QgsPoint make a multipoint or do you need another command?
+                            self.fet.setGeometry(QgsGeometry.fromMultiPoint([QgsPoint(1,1), QgsPoint(1,2)]))
+                            #^change 1,1 back to x,y
                             self.fet.setAttributes([key_str, year_str, author_list, title_str, extra_str])
                             self.multipointProvider.addFeatures([self.fet])
                             self.multipointLayer.updateExtents()

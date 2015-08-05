@@ -32,6 +32,7 @@ import requests
 from qgis.core import *
 import urllib2
 from qgis.gui import *
+import re
 
 class MapToolEmitPoint(QgsMapToolEmitPoint):
     canvasDoubleClicked = pyqtSignal()
@@ -407,7 +408,7 @@ class LiteratureMapper:
                     key = QTableWidgetItem(record['data']['key'])
                     self.dlgTable.tableWidget_Zotero.setItem(i, 0, key)
                     key_str = record['data']['key']
-                    
+
                     year = QTableWidgetItem(record['data']['date'])
                     self.dlgTable.tableWidget_Zotero.setItem(i, 1, year)
                     year_str = record['data']['date']
@@ -452,14 +453,25 @@ class LiteratureMapper:
                             #Alter to make a multipoint
                             #Needs a loop to run through all the points?
                             QgsMessageLog.logMessage("Made it into Multipoint Elif", 'LiteratureMapper', QgsMessageLog.INFO)
-                            # coords = extra_str[extra_str.find('['): extra_str.find(']')+1]
-                            # QgsMessageLog.logMessage("Multipoint Coords: %s" % coords, 'LiteratureMapper', QgsMessageLog.INFO)
-                            # x = float(coords[1:coords.find(',')])
-                            # y = float(coords[coords.find(',')+1:coords.find(']')])
+                            
+                            # Coords needs to be formatted this way: gPolygon = QgsGeometry.fromPolygon([[QgsPoint(1, 1), QgsPoint(2, 2), QgsPoint(2, 1)]])
+                            coords = extra_str[(extra_str.find('[')+1): (len(extra_str)-2)]
+                            #looks like this: [-132.58038861948805, 36.36773760268237], [-126.90494519104253, 33.262306292778206], [-124.28139115336488, 36.84961487490887]
+                            QgsMessageLog.logMessage("Coords: %s" % coords, 'LiteratureMapper', QgsMessageLog.INFO)
+                            #Replace [ with [( and add QgsPoint
+                            p=re.compile( '\[' )
+                            c = p.sub('QgsPoint(', str(coords))
+                            #Replace ] with )]
+                            q = re.compile( '\]' )
+                            coords_list = q.sub(')', str(c))
+                            
+                            coords_list = '['+coords_list+']'
+                            QgsMessageLog.logMessage("Coords_List: %s" % coords_list, 'LiteratureMapper', QgsMessageLog.INFO)
+                            
                             #put records with existing geometries into the virtual Multipoint shapefile attribute table
                             self.fet = QgsFeature()
                             #does QgsPoint make a multipoint or do you need another command?
-                            self.fet.setGeometry(QgsGeometry.fromMultiPoint([QgsPoint(1,1), QgsPoint(1,2)]))
+                            self.fet.setGeometry(QgsGeometry.fromMultiPoint(eval(coords_list)))
                             #^change 1,1 back to x,y
                             self.fet.setAttributes([key_str, year_str, author_list, title_str, extra_str])
                             self.multipointProvider.addFeatures([self.fet])

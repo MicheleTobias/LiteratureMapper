@@ -25,8 +25,8 @@ email=mmtobias@ucdavis.edu
 tags=Zotero, georeference, geolocate, research
 
 homepage=http://micheletobias.github.io/maps/
-tracker=
-repository=
+tracker=https://github.com/MicheleTobias/LiteratureMapper/issues
+repository=https://github.com/MicheleTobias/LiteratureMapper
 icon=icon.png
 # experimental flag
 experimental=True

@@ -17,9 +17,9 @@
    version="1.1"
    inkscape:version="0.91 r13725"
    sodipodi:docname="icon_LitMapper.svg"
-   inkscape:export-filename="C:\Users\Michele\.qgis2\python\plugins\LiteratureMapper\icon.png"
-   inkscape:export-xdpi="90"
-   inkscape:export-ydpi="90">
+   inkscape:export-filename="C:\Users\Michele\Documents\Research\WebMaps\MapsRepository\images\LiteratureMapper_IconBig.png"
+   inkscape:export-xdpi="300"
+   inkscape:export-ydpi="300">
   <defs
      id="defs4">
     <radialGradient
@@ -132,7 +132,7 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="26.708333"
-     inkscape:cx="13.33356"
+     inkscape:cx="7.736056"
      inkscape:cy="12"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
@@ -151,7 +151,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>

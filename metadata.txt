@@ -17,7 +17,7 @@ email=mmtobias@ucdavis.edu
 # End of mandatory metadata
 
 # Optional items:
-
+category=Web
 # Uncomment the following line and add your changelog:
 # changelog=
 

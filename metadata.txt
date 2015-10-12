@@ -24,7 +24,7 @@ email=mmtobias@ucdavis.edu
 # Tags are comma separated with spaces allowed
 tags=Zotero, georeference, geolocate, research
 
-homepage=http://micheletobias.github.io/maps/
+homepage=http://micheletobias.github.io/maps/LiteratureMapper.html
 tracker=https://github.com/MicheleTobias/LiteratureMapper/issues
 repository=https://github.com/MicheleTobias/LiteratureMapper
 icon=icon.png

@@ -347,12 +347,7 @@ class LiteratureMapper:
                 api_url = 'https://api.zotero.org/users/%s/collections/%s/items?v=3' % (userID, collectionID)
                 data_json = json.load(urllib2.urlopen(api_url))
                 return data_json
-            
-            #hardcoded variables ---- change to get them from the interface
-            #userID = '2338633'
-            #collectionID = '7VGCKIXX'
-            #apiKey = ''
-            
+                        
             #Getting the variables the user entered
             self.userID = self.dlg.lineEdit_UserID.text()
             self.collectionID = self.dlg.lineEdit_CollectionKey.text()

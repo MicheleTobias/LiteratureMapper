@@ -264,7 +264,8 @@ class LiteratureMapper:
         self.dlgTable.tableWidget_Zotero.setItem(self.dlgTable.tableWidget_Zotero.currentRow(),4,QTableWidgetItem('{"type": "Multipoint", "coordinates": %s}' % self.pointList))
         
         #QObject.connect(self.clickTool, SIGNAL("canvasDoubleClicked(const QgsPoint &, Qt::MouseButton)"), self.handleMouseDownMultipointFinish)
-        #Needs a special implementation of canvasDoubleClicked because it is a virtual method and needs to be told what to do.  http://stackoverflow.com/questions/19973188/emit-and-catch-double-click-signals-from-qgsmapcanvas
+        #Needs a special implementation of canvasDoubleClicked because it is a virtual method and needs to be told what to do.  
+//stackoverflow.com/questions/19973188/emit-and-catch-double-click-signals-from-qgsmapcanvas
         
     # def handleFinishMultipoint(self):
     #     try:
@@ -344,7 +345,7 @@ class LiteratureMapper:
             
             
             def data_get(userID, collectionID):
-                api_url = 'https://api.zotero.org/users/%s/collections/%s/items?v=3' % (userID, collectionID)
+                api_url = 'https://api.zotero.org/users/%s/collections/%s/items?v=3&key=%s' % (userID, collectionID, apiKey)
                 data_json = json.load(urllib2.urlopen(api_url))
                 return data_json
                         

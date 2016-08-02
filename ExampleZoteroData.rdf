@@ -1,0 +1,803 @@
+<rdf:RDF
+ xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+ xmlns:z="http://www.zotero.org/namespaces/export#"
+ xmlns:dcterms="http://purl.org/dc/terms/"
+ xmlns:prism="http://prismstandard.org/namespaces/1.2/basic/"
+ xmlns:dc="http://purl.org/dc/elements/1.1/"
+ xmlns:bib="http://purl.org/net/biblio#"
+ xmlns:foaf="http://xmlns.com/foaf/0.1/"
+ xmlns:vcard="http://nwalsh.com/rdf/vCard#">
+    <bib:Article rdf:about="#item_39">
+        <z:itemType>journalArticle</z:itemType>
+        <dcterms:isPartOf>
+            <bib:Journal>
+                <prism:volume>99</prism:volume>
+                <prism:number>1</prism:number>
+                <dc:title>Bulletin of the Torrey Botanical Club</dc:title>
+            </bib:Journal>
+        </dcterms:isPartOf>
+        <bib:authors>
+            <rdf:Seq>
+                <rdf:li>
+                    <foaf:Person>
+                        <foaf:surname>Barbour</foaf:surname>
+                        <foaf:givenname>M.G.</foaf:givenname>
+                    </foaf:Person>
+                </rdf:li>
+            </rdf:Seq>
+        </bib:authors>
+        <dc:subject>Bodega Head</dc:subject>
+        <dc:subject>Map</dc:subject>
+        <bib:pages>11-16</bib:pages>
+        <dc:date>1972</dc:date>
+        <dc:description>{&quot;type&quot;: &quot;Point&quot;, &quot;coordinates&quot;: [-123.06968518846, 38.3159900072391]}</dc:description>
+        <dc:title>Establishment of Cakile maritima at Bodega Head, California</dc:title>
+    </bib:Article>
+    <bib:Article rdf:about="#item_45">
+        <z:itemType>journalArticle</z:itemType>
+        <dcterms:isPartOf>
+            <bib:Journal>
+                <prism:volume>6</prism:volume>
+                <prism:number>1</prism:number>
+                <dc:title>Ecological Monographs</dc:title>
+            </bib:Journal>
+        </dcterms:isPartOf>
+        <bib:authors>
+            <rdf:Seq>
+                <rdf:li>
+                    <foaf:Person>
+                        <foaf:surname>Purer</foaf:surname>
+                        <foaf:givenname>E. A.</foaf:givenname>
+                    </foaf:Person>
+                </rdf:li>
+            </rdf:Seq>
+        </bib:authors>
+        <dc:subject>Abronia maritima</dc:subject>
+        <dc:subject>Abronia umbellata</dc:subject>
+        <dc:subject>Ambrosia chamissonis</dc:subject>
+        <dc:subject>Atriplex leucophylla</dc:subject>
+        <dc:subject>autecology</dc:subject>
+        <dc:subject>Baja California</dc:subject>
+        <dc:subject>California</dc:subject>
+        <dc:subject>Calystegia soldanella</dc:subject>
+        <dc:subject>Camissonia cheiranthifolia</dc:subject>
+        <dc:subject>El Segundo</dc:subject>
+        <dc:subject>Ensenada, Baja California</dc:subject>
+        <dc:subject>environmental conditions</dc:subject>
+        <dc:subject>Florence, OR</dc:subject>
+        <dc:subject>Los Angeles</dc:subject>
+        <dc:subject>Map</dc:subject>
+        <dc:subject>Mesembryanthemum sp.</dc:subject>
+        <dc:subject>Mexico</dc:subject>
+        <dc:subject>North America</dc:subject>
+        <dc:subject>Oregon</dc:subject>
+        <dc:subject>San Diego</dc:subject>
+        <dc:subject>Silver Strand</dc:subject>
+        <bib:pages>1-87</bib:pages>
+        <dc:date>1936</dc:date>
+        <dc:description>{&quot;type&quot;: &quot;Point&quot;, &quot;coordinates&quot;: [-117.144122680793, 32.637078001004]}</dc:description>
+        <dc:title>Studies of certain coastal sand dune plants of southern California</dc:title>
+    </bib:Article>
+    <bib:Article rdf:about="#item_60">
+        <z:itemType>journalArticle</z:itemType>
+        <dcterms:isPartOf>
+            <bib:Journal>
+                <prism:volume>21</prism:volume>
+                <dc:title>Yearbook - Carnegie Institution of Washington</dc:title>
+            </bib:Journal>
+        </dcterms:isPartOf>
+        <bib:authors>
+            <rdf:Seq>
+                <rdf:li>
+                    <foaf:Person>
+                        <foaf:surname>Cooper</foaf:surname>
+                        <foaf:givenname>W.S.</foaf:givenname>
+                    </foaf:Person>
+                </rdf:li>
+            </rdf:Seq>
+        </bib:authors>
+        <dc:subject>Arctostaphylos pumila</dc:subject>
+        <dc:subject>California</dc:subject>
+        <dc:subject>Lupinus chamissonis</dc:subject>
+        <dc:subject>Map</dc:subject>
+        <dc:subject>Monterey</dc:subject>
+        <dc:subject>North America</dc:subject>
+        <dc:subject>Pacific Coast North America</dc:subject>
+        <dc:subject>Pinus radiata</dc:subject>
+        <dc:subject>succession</dc:subject>
+        <bib:pages>74-75</bib:pages>
+        <dc:date>1922</dc:date>
+        <dc:description>{&quot;type&quot;: &quot;Point&quot;, &quot;coordinates&quot;: [-121.819044221353, 36.6378672337779]}</dc:description>
+        <dc:title>Strand vegetation of the Pacific coast</dc:title>
+    </bib:Article>
+    <bib:Article rdf:about="#item_68">
+        <z:itemType>journalArticle</z:itemType>
+        <dcterms:isPartOf>
+            <bib:Journal>
+                <prism:volume>101</prism:volume>
+                <prism:number>2</prism:number>
+                <dc:title>Bulletin of the Torrey Botanical Club</dc:title>
+            </bib:Journal>
+        </dcterms:isPartOf>
+        <bib:authors>
+            <rdf:Seq>
+                <rdf:li>
+                    <foaf:Person>
+                        <foaf:surname>Williams</foaf:surname>
+                        <foaf:givenname>W. T.</foaf:givenname>
+                    </foaf:Person>
+                </rdf:li>
+            </rdf:Seq>
+        </bib:authors>
+        <dc:subject>Abronia maritima</dc:subject>
+        <dc:subject>Ambrosia chamissonis</dc:subject>
+        <dc:subject>Cakile maritima</dc:subject>
+        <dc:subject>California</dc:subject>
+        <dc:subject>Camissonia cheiranthifolia</dc:subject>
+        <dc:subject>Map</dc:subject>
+        <dc:subject>Mesembryanthemum chilense</dc:subject>
+        <dc:subject>Morro Bay</dc:subject>
+        <dc:subject>North America</dc:subject>
+        <dc:subject>seasonal variations</dc:subject>
+        <bib:pages>83-89</bib:pages>
+        <dc:date>1974</dc:date>
+        <dc:description>{&quot;type&quot;: &quot;Point&quot;, &quot;coordinates&quot;: [-120.864219936563, 35.3896149315931]}</dc:description>
+        <dc:title>Species dynamism in the coastal strant plant community at Morro Bay, California</dc:title>
+    </bib:Article>
+    <bib:Thesis rdf:about="#item_81">
+        <z:itemType>thesis</z:itemType>
+        <dc:publisher>
+            <foaf:Organization>
+                <vcard:adr>
+                    <vcard:Address>
+                       <vcard:locality>246</vcard:locality>
+                    </vcard:Address>
+                </vcard:adr>
+                <foaf:name>University of California, Davis</foaf:name>
+            </foaf:Organization>
+        </dc:publisher>
+        <bib:authors>
+            <rdf:Seq>
+                <rdf:li>
+                    <foaf:Person>
+                        <foaf:surname>Pitts</foaf:surname>
+                        <foaf:givenname>W. D.</foaf:givenname>
+                    </foaf:Person>
+                </rdf:li>
+            </rdf:Seq>
+        </bib:authors>
+        <dc:subject>California</dc:subject>
+        <dc:subject>Map</dc:subject>
+        <dc:subject>North America</dc:subject>
+        <dc:subject>Point Reyes</dc:subject>
+        <dc:date>1976</dc:date>
+        <dc:description>{&quot;type&quot;: &quot;Point&quot;, &quot;coordinates&quot;: [-122.966265236747, 38.0974923546518]}</dc:description>
+        <z:type>PhD Thesis</z:type>
+        <dc:title>Plant/Animal interaction in the beach and dunes of Point Reyes</dc:title>
+    </bib:Thesis>
+    <bib:Article rdf:about="internal-pdf://Barbour 1978 salt spray-2507300352/Barbour 1978 salt spray.pdf">
+        <z:itemType>journalArticle</z:itemType>
+        <dcterms:isPartOf>
+            <bib:Journal>
+               <prism:volume>32</prism:volume><dc:title>Oecologia</dc:title>
+            </bib:Journal>
+        </dcterms:isPartOf>
+        <bib:authors>
+            <rdf:Seq>
+                <rdf:li>
+                    <foaf:Person>
+                        <foaf:surname>Barbour</foaf:surname>
+                        <foaf:givenname>M.G.</foaf:givenname>
+                    </foaf:Person>
+                </rdf:li>
+            </rdf:Seq>
+        </bib:authors>
+        <dcterms:isReferencedBy rdf:resource="#item_492"/>
+        <dc:subject>Abronia latifolia</dc:subject>
+        <dc:subject>Agoseris apargioides</dc:subject>
+        <dc:subject>Ambrosia chamissonis</dc:subject>
+        <dc:subject>Atriplex leucophylla</dc:subject>
+        <dc:subject>Cakile maritima</dc:subject>
+        <dc:subject>Camissonia cheiranthifolia</dc:subject>
+        <dc:subject>Layia carnosa</dc:subject>
+        <dc:subject>Leymus mollis</dc:subject>
+        <dc:subject>Map</dc:subject>
+        <dc:subject>Mesembryanthemum chilense</dc:subject>
+        <dc:subject>Poa douglasii</dc:subject>
+        <dc:subject>Point Reyes</dc:subject>
+        <dc:subject>saltspray</dc:subject>
+        <dc:identifier>
+            <dcterms:URI>
+                <rdf:value>internal-pdf://Barbour 1978 salt spray-2507300352/Barbour 1978 salt spray.pdf</rdf:value>
+            </dcterms:URI>
+        </dc:identifier>
+        <bib:pages>213-224</bib:pages>
+        <dc:date>1978</dc:date>
+        <dc:description>{&quot;type&quot;: &quot;Point&quot;, &quot;coordinates&quot;: [-122.966791306791, 38.0963396061246]}</dc:description>
+        <dc:title>Salt Spray as a Microenvironmental Factor in the Distribution of Beach Plants at Point Reyes, California</dc:title>
+    </bib:Article>
+   <bib:Memo rdf:about="#item_492"><rdf:value>Research</rdf:value></bib:Memo>
+    <bib:Article rdf:about="#item_135">
+        <z:itemType>journalArticle</z:itemType>
+        <dcterms:isPartOf>
+            <bib:Journal>
+                <prism:volume>9</prism:volume>
+                <prism:number>6</prism:number>
+                <dc:title>Conservation Biology</dc:title>
+            </bib:Journal>
+        </dcterms:isPartOf>
+        <bib:authors>
+            <rdf:Seq>
+                <rdf:li>
+                    <foaf:Person>
+                        <foaf:surname>Buell</foaf:surname>
+                        <foaf:givenname>A. C.</foaf:givenname>
+                    </foaf:Person>
+                </rdf:li>
+                <rdf:li>
+                    <foaf:Person>
+                        <foaf:surname>Pickart</foaf:surname>
+                        <foaf:givenname>A.J.</foaf:givenname>
+                    </foaf:Person>
+                </rdf:li>
+                <rdf:li>
+                    <foaf:Person>
+                        <foaf:surname>Stuart</foaf:surname>
+                        <foaf:givenname>J. D.</foaf:givenname>
+                    </foaf:Person>
+                </rdf:li>
+            </rdf:Seq>
+        </bib:authors>
+        <dc:subject>California</dc:subject>
+        <dc:subject>Map</dc:subject>
+        <dc:subject>North America</dc:subject>
+        <dc:subject>North Spit of Humboldt Bay</dc:subject>
+        <bib:pages>1587-1593</bib:pages>
+        <dc:date>1995</dc:date>
+        <dc:description>{&quot;type&quot;: &quot;Point&quot;, &quot;coordinates&quot;: [-124.205372136097, 40.7954432140167]}</dc:description>
+        <dc:title>Introduction history and invasion patterns of Ammophila arenaria on the north coast of California</dc:title>
+    </bib:Article>
+    <bib:Article rdf:about="internal-pdf://Danin 1998-2491645952/Danin 1998.pdf">
+        <z:itemType>journalArticle</z:itemType>
+        <dcterms:isPartOf>
+            <bib:Journal>
+                <prism:volume>45</prism:volume>
+                <prism:number>2</prism:number>
+                <dc:title>Madroño</dc:title>
+            </bib:Journal>
+        </dcterms:isPartOf>
+        <bib:authors>
+            <rdf:Seq>
+                <rdf:li>
+                    <foaf:Person>
+                        <foaf:surname>Danin</foaf:surname>
+                        <foaf:givenname>A.</foaf:givenname>
+                    </foaf:Person>
+                </rdf:li>
+                <rdf:li>
+                    <foaf:Person>
+                        <foaf:surname>Rae</foaf:surname>
+                        <foaf:givenname>S.</foaf:givenname>
+                    </foaf:Person>
+                </rdf:li>
+                <rdf:li>
+                    <foaf:Person>
+                        <foaf:surname>Barbour</foaf:surname>
+                        <foaf:givenname>M.G.</foaf:givenname>
+                    </foaf:Person>
+                </rdf:li>
+                <rdf:li>
+                    <foaf:Person>
+                        <foaf:surname>Jurjavcic</foaf:surname>
+                        <foaf:givenname>N.</foaf:givenname>
+                    </foaf:Person>
+                </rdf:li>
+                <rdf:li>
+                    <foaf:Person>
+                        <foaf:surname>Connors</foaf:surname>
+                        <foaf:givenname>P.</foaf:givenname>
+                    </foaf:Person>
+                </rdf:li>
+                <rdf:li>
+                    <foaf:Person>
+                        <foaf:surname>Uhlinger</foaf:surname>
+                        <foaf:givenname>E.</foaf:givenname>
+                    </foaf:Person>
+                </rdf:li>
+            </rdf:Seq>
+        </bib:authors>
+        <dcterms:isReferencedBy rdf:resource="#item_446"/>
+        <dc:subject>air photos</dc:subject>
+        <dc:subject>Ammophila arenaria</dc:subject>
+        <dc:subject>Bodega Bay</dc:subject>
+        <dc:subject>Bodega Head</dc:subject>
+        <dc:subject>California</dc:subject>
+        <dc:subject>geometry: { &quot;type&quot;: &quot;Point&quot;, &quot;coordinates&quot;: [ -119.2827956735272, 34.271088016469697 ] }</dc:subject>
+        <dc:subject>Leymus mollis</dc:subject>
+        <dc:subject>Map</dc:subject>
+        <dc:subject>North America</dc:subject>
+        <dc:subject>succession</dc:subject>
+        <dc:identifier>
+            <dcterms:URI>
+                <rdf:value>internal-pdf://Danin 1998-2491645952/Danin 1998.pdf</rdf:value>
+            </dcterms:URI>
+        </dc:identifier>
+        <bib:pages>101-109</bib:pages>
+        <dc:date>1998</dc:date>
+        <dc:description>{&quot;type&quot;: &quot;Point&quot;, &quot;coordinates&quot;: [-123.069403678033, 38.3159528822055]}</dc:description>
+        <dc:title>Early Primary Succession on Dunes at Bodega Head, California</dc:title>
+    </bib:Article>
+   <bib:Memo rdf:about="#item_446"><rdf:value>Research</rdf:value></bib:Memo>
+    <bib:Article rdf:about="internal-pdf://Boyd &amp; Barbour 1993 - Cakile-3296636928/Boyd &amp; Barbour 1993 - Cakile.pdf">
+        <z:itemType>journalArticle</z:itemType>
+        <dcterms:isPartOf>
+            <bib:Journal>
+                <prism:volume>130</prism:volume>
+                <prism:number>2</prism:number>
+                <dc:title>American Midland Naturalist</dc:title>
+            </bib:Journal>
+        </dcterms:isPartOf>
+        <bib:authors>
+            <rdf:Seq>
+                <rdf:li>
+                    <foaf:Person>
+                        <foaf:surname>Boyd</foaf:surname>
+                        <foaf:givenname>R.S.</foaf:givenname>
+                    </foaf:Person>
+                </rdf:li>
+                <rdf:li>
+                    <foaf:Person>
+                        <foaf:surname>Barbour</foaf:surname>
+                        <foaf:givenname>M.G.</foaf:givenname>
+                    </foaf:Person>
+                </rdf:li>
+            </rdf:Seq>
+        </bib:authors>
+        <dcterms:isReferencedBy rdf:resource="#item_354"/>
+        <dc:subject>Cakile edentula</dc:subject>
+        <dc:subject>Cakile maritima</dc:subject>
+        <dc:subject>field experiment</dc:subject>
+        <dc:subject>Map</dc:subject>
+        <dc:subject>Point Reyes</dc:subject>
+        <dc:identifier>
+            <dcterms:URI>
+                <rdf:value>internal-pdf://Boyd &amp; Barbour 1993 - Cakile-3296636928/Boyd &amp; Barbour 1993 - Cakile.pdf</rdf:value>
+            </dcterms:URI>
+        </dc:identifier>
+        <bib:pages>209-228</bib:pages>
+        <dc:date>1993</dc:date>
+        <dc:description>{&quot;type&quot;: &quot;Point&quot;, &quot;coordinates&quot;: [-122.966424079695, 38.0977566610516]}</dc:description>
+        <dc:title>Replacement of Cakile edentula by C. maritima in the Strand Habitat of California</dc:title>
+    </bib:Article>
+   <bib:Memo rdf:about="#item_354"><rdf:value>Research</rdf:value></bib:Memo>
+    <bib:Article rdf:about="#item_148">
+        <z:itemType>journalArticle</z:itemType>
+        <dcterms:isPartOf>
+            <bib:Journal>
+                <prism:volume>96</prism:volume>
+                <prism:number>1</prism:number>
+                <dc:title>American Midland Naturalist</dc:title>
+            </bib:Journal>
+        </dcterms:isPartOf>
+        <bib:authors>
+            <rdf:Seq>
+                <rdf:li>
+                    <foaf:Person>
+                        <foaf:surname>McBride</foaf:surname>
+                        <foaf:givenname>J. R.</foaf:givenname>
+                    </foaf:Person>
+                </rdf:li>
+                <rdf:li>
+                    <foaf:Person>
+                        <foaf:surname>Stone</foaf:surname>
+                        <foaf:givenname>E. C.</foaf:givenname>
+                    </foaf:Person>
+                </rdf:li>
+            </rdf:Seq>
+        </bib:authors>
+        <dc:subject>Abronia latifolia</dc:subject>
+        <dc:subject>Abronia maritima</dc:subject>
+        <dc:subject>Abronia umbellata</dc:subject>
+        <dc:subject>Ambrosia chamissonis</dc:subject>
+        <dc:subject>geometry: { &quot;type&quot;: &quot;Point&quot;, &quot;coordinates&quot;: [ -119.16863831297933, 34.125662173298586 ] }</dc:subject>
+        <dc:subject>history</dc:subject>
+        <dc:subject>Map</dc:subject>
+        <dc:subject>Monterey</dc:subject>
+        <dc:subject>succession</dc:subject>
+        <bib:pages>118-132</bib:pages>
+        <dc:date>1976</dc:date>
+        <dc:description>{&quot;type&quot;: &quot;Point&quot;, &quot;coordinates&quot;: [-121.943352010208, 36.5996662302192]}</dc:description>
+        <dc:title>Plant succession on the Sand Dunes of the Monterey Peninsula, California</dc:title>
+    </bib:Article>
+    <bib:Article rdf:about="#item_168">
+        <z:itemType>journalArticle</z:itemType>
+        <dcterms:isPartOf>
+            <bib:Journal>
+                <prism:volume>99</prism:volume>
+                <dc:title>Bulletin of the Torrey Botanical Club</dc:title>
+            </bib:Journal>
+        </dcterms:isPartOf>
+        <bib:authors>
+            <rdf:Seq>
+                <rdf:li>
+                    <foaf:Person>
+                        <foaf:surname>Williams</foaf:surname>
+                        <foaf:givenname>W. T.</foaf:givenname>
+                    </foaf:Person>
+                </rdf:li>
+                <rdf:li>
+                    <foaf:Person>
+                        <foaf:surname>Potter</foaf:surname>
+                        <foaf:givenname>J. R.</foaf:givenname>
+                    </foaf:Person>
+                </rdf:li>
+            </rdf:Seq>
+        </bib:authors>
+        <dc:subject>Abronia maritima</dc:subject>
+        <dc:subject>Ambrosia chamissonis</dc:subject>
+        <dc:subject>Biogeomorphology</dc:subject>
+        <dc:subject>Cakile maritima</dc:subject>
+        <dc:subject>California</dc:subject>
+        <dc:subject>disturbance</dc:subject>
+        <dc:subject>dune building</dc:subject>
+        <dc:subject>Map</dc:subject>
+        <dc:subject>Mesembryanthemum chilense</dc:subject>
+        <dc:subject>Morro Bay</dc:subject>
+        <dc:subject>North America</dc:subject>
+        <bib:pages>113-162</bib:pages>
+        <dc:date>1972</dc:date>
+        <dc:description>{&quot;type&quot;: &quot;Point&quot;, &quot;coordinates&quot;: [-120.862253825223, 35.3392205561724]}</dc:description>
+        <dc:title>The coastal strand community at Morro Bay State Park, California</dc:title>
+    </bib:Article>
+    <bib:Book rdf:about="#item_210">
+        <z:itemType>book</z:itemType>
+        <dc:publisher>
+            <foaf:Organization>
+                <vcard:adr>
+                    <vcard:Address>
+                       <vcard:locality>Lancaster, Pennsylvania</vcard:locality>
+                    </vcard:Address>
+                </vcard:adr>
+                <foaf:name>Science Press Printing Company</foaf:name>
+            </foaf:Organization>
+        </dc:publisher>
+        <bib:authors>
+            <rdf:Seq>
+                <rdf:li>
+                    <foaf:Person>
+                        <foaf:surname>Purer</foaf:surname>
+                        <foaf:givenname>E. A.</foaf:givenname>
+                    </foaf:Person>
+                </rdf:li>
+            </rdf:Seq>
+        </bib:authors>
+        <dc:subject>California</dc:subject>
+        <dc:subject>Map</dc:subject>
+        <dc:subject>North America</dc:subject>
+        <dc:subject>San Diego</dc:subject>
+        <dc:subject>Silver Strand</dc:subject>
+        <dc:date>1936</dc:date>
+        <dc:description>{&quot;type&quot;: &quot;Point&quot;, &quot;coordinates&quot;: [-117.143397809432, 32.637078001004]}</dc:description>
+        <dc:title>Plants of Silver Strand Beach State Park: A Visitors' Handbook</dc:title>
+        <z:numPages>98</z:numPages>
+    </bib:Book>
+    <bib:Article rdf:about="#item_213">
+        <z:itemType>journalArticle</z:itemType>
+        <dcterms:isPartOf>
+            <bib:Journal>
+                <prism:volume>37</prism:volume>
+                <prism:number>3</prism:number>
+                <dc:title>Madroño</dc:title>
+            </bib:Journal>
+        </dcterms:isPartOf>
+        <bib:authors>
+            <rdf:Seq>
+                <rdf:li>
+                    <foaf:Person>
+                        <foaf:surname>Fink</foaf:surname>
+                        <foaf:givenname>B.H.</foaf:givenname>
+                    </foaf:Person>
+                </rdf:li>
+                <rdf:li>
+                    <foaf:Person>
+                        <foaf:surname>Zedler</foaf:surname>
+                        <foaf:givenname>J.B.</foaf:givenname>
+                    </foaf:Person>
+                </rdf:li>
+            </rdf:Seq>
+        </bib:authors>
+        <dc:subject>Abronia maritima</dc:subject>
+        <dc:subject>Ambrosia chamissonis</dc:subject>
+        <dc:subject>Camissonia cheiranthifolia</dc:subject>
+        <dc:subject>Map</dc:subject>
+        <dc:subject>salt water</dc:subject>
+        <dc:subject>sand burial</dc:subject>
+        <dc:subject>San Diego</dc:subject>
+        <dc:subject>seaspray</dc:subject>
+        <dc:subject>stress tolerance</dc:subject>
+        <bib:pages>200-213</bib:pages>
+        <dc:date>1990</dc:date>
+        <dc:description>{&quot;type&quot;: &quot;Point&quot;, &quot;coordinates&quot;: [-117.122341141629, 32.543417546613]}</dc:description>
+        <dc:title>Maritime stress tolerance studies of California dune perennials</dc:title>
+    </bib:Article>
+    <bib:Article rdf:about="#item_217">
+        <z:itemType>journalArticle</z:itemType>
+        <dcterms:isPartOf>
+            <bib:Journal>
+                <prism:volume>111</prism:volume>
+                <prism:number>2</prism:number>
+                <dc:title>Bulletin of the Torrey Botanical Club</dc:title>
+            </bib:Journal>
+        </dcterms:isPartOf>
+        <bib:authors>
+            <rdf:Seq>
+                <rdf:li>
+                    <foaf:Person>
+                        <foaf:surname>Williams</foaf:surname>
+                        <foaf:givenname>W. T.</foaf:givenname>
+                    </foaf:Person>
+                </rdf:li>
+                <rdf:li>
+                    <foaf:Person>
+                        <foaf:surname>Williams</foaf:surname>
+                        <foaf:givenname>J. A.</foaf:givenname>
+                    </foaf:Person>
+                </rdf:li>
+            </rdf:Seq>
+        </bib:authors>
+        <dc:subject>California</dc:subject>
+        <dc:subject>Map</dc:subject>
+        <dc:subject>Morro Bay</dc:subject>
+        <dc:subject>North America</dc:subject>
+        <bib:pages>145-152</bib:pages>
+        <dc:date>1984</dc:date>
+        <dc:description>{&quot;type&quot;: &quot;Point&quot;, &quot;coordinates&quot;: [-120.863614978754, 35.3900330518742]}</dc:description>
+        <dc:title>Ten years of vegetation change on the coastal strand at Morro Bay, California</dc:title>
+    </bib:Article>
+    <bib:Article rdf:about="#item_221">
+        <z:itemType>journalArticle</z:itemType>
+        <dcterms:isPartOf>
+            <bib:Journal>
+                <prism:volume>37</prism:volume>
+                <prism:number>6</prism:number>
+                <dc:title>Botanical Gazette</dc:title>
+            </bib:Journal>
+        </dcterms:isPartOf>
+        <bib:authors>
+            <rdf:Seq>
+                <rdf:li>
+                    <foaf:Person>
+                        <foaf:surname>Kearney</foaf:surname>
+                        <foaf:givenname>T. H.</foaf:givenname>
+                    </foaf:Person>
+                </rdf:li>
+            </rdf:Seq>
+        </bib:authors>
+        <dc:subject>California</dc:subject>
+        <dc:subject>Long Beach</dc:subject>
+        <dc:subject>Map</dc:subject>
+        <dc:subject>Massachusetts</dc:subject>
+        <dc:subject>North America</dc:subject>
+        <dc:subject>Woods Hole</dc:subject>
+        <bib:pages>424-436</bib:pages>
+        <dc:date>1904</dc:date>
+        <dc:description>{&quot;type&quot;: &quot;Point&quot;, &quot;coordinates&quot;: [-118.125187511937, 33.7485227341515]}</dc:description>
+        <dc:title>Are plants of sea beaches and dunes true halophytes?</dc:title>
+    </bib:Article>
+    <bib:Thesis rdf:about="#item_232">
+        <z:itemType>thesis</z:itemType>
+        <dc:publisher>
+            <foaf:Organization>
+               <foaf:name>California State University, Humboldt</foaf:name>
+            </foaf:Organization>
+        </dc:publisher>
+        <bib:authors>
+            <rdf:Seq>
+                <rdf:li>
+                    <foaf:Person>
+                        <foaf:surname>Johnson</foaf:surname>
+                        <foaf:givenname>J.</foaf:givenname>
+                    </foaf:Person>
+                </rdf:li>
+            </rdf:Seq>
+        </bib:authors>
+        <dc:subject>California</dc:subject>
+        <dc:subject>Humboldt</dc:subject>
+        <dc:subject>Humboldt Bay</dc:subject>
+        <dc:subject>Map</dc:subject>
+        <dc:subject>North America</dc:subject>
+        <dc:subject>North Spit</dc:subject>
+        <dc:date>1963</dc:date>
+        <dc:description>{&quot;type&quot;: &quot;Point&quot;, &quot;coordinates&quot;: [-124.205356194713, 40.7956475340424]}</dc:description>
+        <z:type>Masters Thesis</z:type>
+        <dc:title>An ecological study of the dune flora of the North Spit of Humboldt Bay</dc:title>
+        <z:numPages>447</z:numPages>
+    </bib:Thesis>
+    <bib:Article rdf:about="#item_245">
+        <z:itemType>journalArticle</z:itemType>
+        <dcterms:isPartOf>
+            <bib:Journal>
+                <prism:volume>21</prism:volume>
+                <prism:number>8</prism:number>
+                <dc:title>Plant World</dc:title>
+            </bib:Journal>
+        </dcterms:isPartOf>
+        <bib:authors>
+            <rdf:Seq>
+                <rdf:li>
+                    <foaf:Person>
+                        <foaf:surname>Ramaley</foaf:surname>
+                        <foaf:givenname>F.</foaf:givenname>
+                    </foaf:Person>
+                </rdf:li>
+            </rdf:Seq>
+        </bib:authors>
+        <dc:subject>Abronia latifolia</dc:subject>
+        <dc:subject>Ambrosia chamissonis</dc:subject>
+        <dc:subject>California</dc:subject>
+        <dc:subject>Camissonia cheiranthifolia</dc:subject>
+        <dc:subject>field notes</dc:subject>
+        <dc:subject>Fragaria chilensis</dc:subject>
+        <dc:subject>Map</dc:subject>
+        <dc:subject>North America</dc:subject>
+        <dc:subject>San Francisco</dc:subject>
+        <bib:pages>191-201</bib:pages>
+        <dc:date>1918</dc:date>
+        <dc:description>{&quot;type&quot;: &quot;Point&quot;, &quot;coordinates&quot;: [-122.510264689622, 37.7675319548248]}</dc:description>
+        <dc:title>Notes on dune vegetation at San Francisco, California</dc:title>
+    </bib:Article>
+    <bib:Article rdf:about="#item_249">
+        <z:itemType>journalArticle</z:itemType>
+        <dcterms:isPartOf>
+            <bib:Journal>
+                <prism:volume>47</prism:volume>
+                <prism:number>2</prism:number>
+                <dc:title>Botanical Gazette</dc:title>
+            </bib:Journal>
+        </dcterms:isPartOf>
+        <bib:authors>
+            <rdf:Seq>
+                <rdf:li>
+                    <foaf:Person>
+                        <foaf:surname>Olsson-Seffer</foaf:surname>
+                        <foaf:givenname>P.</foaf:givenname>
+                    </foaf:Person>
+                </rdf:li>
+            </rdf:Seq>
+        </bib:authors>
+        <dc:subject>Australia</dc:subject>
+        <dc:subject>California</dc:subject>
+        <dc:subject>Central America</dc:subject>
+        <dc:subject>Denmark</dc:subject>
+        <dc:subject>France</dc:subject>
+        <dc:subject>Hawaii</dc:subject>
+        <dc:subject>Holland</dc:subject>
+        <dc:subject>Map</dc:subject>
+        <dc:subject>Mediteranean</dc:subject>
+        <dc:subject>Mexico</dc:subject>
+        <dc:subject>New Zealand</dc:subject>
+        <dc:subject>Scotland</dc:subject>
+        <dc:subject>Soil</dc:subject>
+        <dc:subject>Vegetation</dc:subject>
+        <bib:pages>85-126</bib:pages>
+        <dc:date>1909</dc:date>
+        <dc:description>{&quot;type&quot;: &quot;Point&quot;, &quot;coordinates&quot;: [-122.509982932609, 37.7677130396408]}</dc:description>
+        <dc:title>Relation of soil and vegetation on sandy sea shores</dc:title>
+    </bib:Article>
+    <bib:Article rdf:about="#item_258">
+        <z:itemType>journalArticle</z:itemType>
+        <dcterms:isPartOf>
+            <bib:Journal>
+                <prism:volume>28</prism:volume>
+                <prism:number>2</prism:number>
+                <dc:title>Madroño</dc:title>
+            </bib:Journal>
+        </dcterms:isPartOf>
+        <bib:authors>
+            <rdf:Seq>
+                <rdf:li>
+                    <foaf:Person>
+                        <foaf:surname>Bluestone</foaf:surname>
+                        <foaf:givenname>V.</foaf:givenname>
+                    </foaf:Person>
+                </rdf:li>
+            </rdf:Seq>
+        </bib:authors>
+        <dc:subject>Abronia latifolia</dc:subject>
+        <dc:subject>Artemisia pycnocephala</dc:subject>
+        <dc:subject>California</dc:subject>
+        <dc:subject>Calystegia soldanella</dc:subject>
+        <dc:subject>Carpobrotus spp.</dc:subject>
+        <dc:subject>Map</dc:subject>
+        <dc:subject>Monterey</dc:subject>
+        <dc:subject>North America</dc:subject>
+        <dc:subject>Salinas River State Beach</dc:subject>
+        <bib:pages>49-60</bib:pages>
+        <dc:date>1981</dc:date>
+        <dc:description>{&quot;type&quot;: &quot;Point&quot;, &quot;coordinates&quot;: [-121.795858895549, 36.775567482103]}</dc:description>
+        <dc:title>Strand and dune vegetation at Salinas River State Beach, California</dc:title>
+    </bib:Article>
+    <bib:Article rdf:about="#item_266">
+        <z:itemType>journalArticle</z:itemType>
+        <dcterms:isPartOf>
+            <bib:Journal>
+                <prism:volume>13</prism:volume>
+                <prism:number>3</prism:number>
+                <dc:title>Ecology</dc:title>
+            </bib:Journal>
+        </dcterms:isPartOf>
+        <bib:authors>
+            <rdf:Seq>
+                <rdf:li>
+                    <foaf:Person>
+                        <foaf:surname>Whitfield</foaf:surname>
+                        <foaf:givenname>C. J.</foaf:givenname>
+                    </foaf:Person>
+                </rdf:li>
+            </rdf:Seq>
+        </bib:authors>
+        <bib:pages>279-285</bib:pages>
+        <dc:date>1932</dc:date>
+        <dc:description>{&quot;type&quot;: &quot;Point&quot;, &quot;coordinates&quot;: [-119.926397989496, 34.4417214742036]}</dc:description>
+        <dc:title>Osmotic concentrations of chaparral, coastal sagebrush, and dune species of southern California</dc:title>
+    </bib:Article>
+    <bib:Article rdf:about="#item_297">
+        <z:itemType>journalArticle</z:itemType>
+        <dcterms:isPartOf>
+            <bib:Journal>
+               <prism:volume>17</prism:volume><dc:title>Plant World</dc:title>
+            </bib:Journal>
+        </dcterms:isPartOf>
+        <bib:authors>
+            <rdf:Seq>
+                <rdf:li>
+                    <foaf:Person>
+                        <foaf:surname>Couch</foaf:surname>
+                        <foaf:givenname>E.B.</foaf:givenname>
+                    </foaf:Person>
+                </rdf:li>
+            </rdf:Seq>
+        </bib:authors>
+        <dc:subject>Abronia umbellata</dc:subject>
+        <dc:subject>Ambrosia chamissonis</dc:subject>
+        <dc:subject>California</dc:subject>
+        <dc:subject>Eriogonum parviolium</dc:subject>
+        <dc:subject>Manhattan Beach</dc:subject>
+        <dc:subject>Map</dc:subject>
+        <dc:subject>North America</dc:subject>
+        <bib:pages>204-208</bib:pages>
+        <dc:date>1914</dc:date>
+        <dc:description>{&quot;type&quot;: &quot;Point&quot;, &quot;coordinates&quot;: [-118.412773449117, 33.8845186419506]}</dc:description>
+        <dc:title>Notes on the Ecology of Sand Dune Plants</dc:title>
+    </bib:Article>
+    <bib:Article rdf:about="#item_303">
+        <z:itemType>journalArticle</z:itemType>
+        <dcterms:isPartOf>
+            <bib:Journal>
+                <prism:volume>15</prism:volume>
+                <prism:number>2</prism:number>
+                <dc:title>Ecology</dc:title>
+            </bib:Journal>
+        </dcterms:isPartOf>
+        <bib:authors>
+            <rdf:Seq>
+                <rdf:li>
+                    <foaf:Person>
+                        <foaf:surname>Purer</foaf:surname>
+                        <foaf:givenname>E. A.</foaf:givenname>
+                    </foaf:Person>
+                </rdf:li>
+            </rdf:Seq>
+        </bib:authors>
+        <dc:subject>Beach</dc:subject>
+        <dc:subject>California</dc:subject>
+        <dc:subject>chaparral</dc:subject>
+        <dc:subject>Map</dc:subject>
+        <dc:subject>San Diego</dc:subject>
+        <dc:subject>Silver Strand</dc:subject>
+        <bib:pages>197-203</bib:pages>
+        <dc:date>1934</dc:date>
+        <dc:description>{&quot;type&quot;: &quot;Point&quot;, &quot;coordinates&quot;: [-117.144122680793, 32.6364675821646]}</dc:description>
+        <dc:title>Foliar differences in eight dune and chaparral species</dc:title>
+    </bib:Article>
+</rdf:RDF>

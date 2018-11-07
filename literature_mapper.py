@@ -29,10 +29,10 @@ from literature_mapper_dialog import LiteratureMapperDialog, TableInterface
 import os.path
 import json #json parsing library  simplejson simplejson.load(json string holding variable)
 import requests
-from qgis.core import *
 import urllib2
-from qgis.gui import *
 import re
+from qgis.core import QgsGeometry, QgsFeature, QgsMessageLog, QgsPoint, QgsVectorLayer, QgsField, QgsMapLayerRegistry
+from qgis.gui import QgsMapToolEmitPoint
 
 class MapToolEmitPoint(QgsMapToolEmitPoint):
     canvasDoubleClicked = pyqtSignal()

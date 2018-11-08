@@ -20,7 +20,7 @@
  *                                                                         *
  ***************************************************************************/
 """
-from PyQt5.QtCore import QSettings, QTranslator, qVersion, QCoreApplication, QObject, SIGNAL, QVariant, pyqtSignal
+from PyQt5.QtCore import QSettings, QTranslator, qVersion, QCoreApplication, QObject, QVariant, pyqtSignal
 from PyQt5.QtGui import QAction, QIcon, QTableWidget, QTableWidgetItem, QMessageBox
 # Initialize Qt resources from file resources.py
 from . import resources_rc
@@ -188,12 +188,16 @@ class LiteratureMapper:
         #result = QObject.connect(self.clickTool, SIGNAL("canvasClicked(const QgsPoint &, Qt::MouseButton)"), self.handleMouseDown)
             
         # Signal for Saving data to Zotero
-        QObject.connect(self.dlgTable.pushButton_Save, SIGNAL("clicked()"), self.saveZotero)
-        
+        #QObject.connect(self.dlgTable.pushButton_Save, SIGNAL("clicked()"), self.saveZotero)
+        self.dlgTable.pushButton_Save.clicked.connect(self.saveZotero)
+
         # Signal for Point digitizing button
-        QObject.connect(self.dlgTable.pushButton_Point, SIGNAL("clicked()"), self.digitizePoint)
+        #QObject.connect(self.dlgTable.pushButton_Point, SIGNAL("clicked()"), self.digitizePoint)
+        self.dlgTable.pushButton_Point.clicked.connect(self.digitizePoint)
+        
         # Signal for Multipoint digitizing button
-        QObject.connect(self.dlgTable.pushButton_Multipoint, SIGNAL("clicked()"), self.digitizeMultipoint)
+        #QObject.connect(self.dlgTable.pushButton_Multipoint, SIGNAL("clicked()"), self.digitizeMultipoint)
+        self.dlgTable.pushButton_Multipoint.clicked.connect(self.digitizeMultipoint)
         # Signal for Finish Multipoint digitizing button
         #QObject.connect(self.dlgTable.pushButton_FinishMultipoint, SIGNAL("clicked()"), self.handleFinishMultipoint)
 

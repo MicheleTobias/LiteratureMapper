@@ -8,9 +8,9 @@
 
 [general]
 name=Literature Mapper
-qgisMinimumVersion=2.0
+qgisMinimumVersion=3.0
 description=Add spatial locations to the citations in your Zotero database.
-version=0.1.2
+version=0.1.3
 author=Michele Tobias & Alex Mandel
 email=mmtobias@ucdavis.edu
 about=Literature Mapper inserts geoJSON geometry strings into an online Zotero database to facilitate the mapping of study site locations. The locations stored in the database are displayed on the map canvas in virtual point and multipoint shapefiles on start up.
@@ -22,6 +22,8 @@ about=Literature Mapper inserts geoJSON geometry strings into an online Zotero d
 changelog=
     Version 0.1.1
     - Added requests library to meet dependency for Bug report #1
+    Version 0.1.3
+    - Porting to QGIS 3
 
 # Tags are comma separated with spaces allowed
 tags=Zotero, georeference, geolocate, research

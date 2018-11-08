@@ -23,8 +23,8 @@
 
 import os
 
-from PyQt4 import QtGui, uic
-from PyQt4.QtCore import QObject, SIGNAL
+from PyQt5 import QtGui, uic
+from PyQt.QtCore import QObject, SIGNAL
 
 FORM_CLASS, _ = uic.loadUiType(os.path.join(
     os.path.dirname(__file__), 'literature_mapper_dialog_base.ui'))

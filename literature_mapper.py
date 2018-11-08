@@ -20,8 +20,8 @@
  *                                                                         *
  ***************************************************************************/
 """
-from PyQt4.QtCore import QSettings, QTranslator, qVersion, QCoreApplication, QObject, SIGNAL, QVariant, pyqtSignal
-from PyQt4.QtGui import QAction, QIcon, QTableWidget, QTableWidgetItem, QMessageBox
+from PyQt5.QtCore import QSettings, QTranslator, qVersion, QCoreApplication, QObject, SIGNAL, QVariant, pyqtSignal
+from PyQt5.QtGui import QAction, QIcon, QTableWidget, QTableWidgetItem, QMessageBox
 # Initialize Qt resources from file resources.py
 from . import resources_rc
 # Import the code for the dialog

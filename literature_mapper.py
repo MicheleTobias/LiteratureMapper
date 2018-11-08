@@ -20,18 +20,19 @@
  *                                                                         *
  ***************************************************************************/
 """
-from PyQt4.QtCore import QSettings, QTranslator, qVersion, QCoreApplication, QObject, SIGNAL, QVariant, pyqtSignal
-from PyQt4.QtGui import QAction, QIcon, QTableWidget, QTableWidgetItem, QMessageBox
+from PyQt5.QtCore import QSettings, QTranslator, qVersion, QCoreApplication, QObject, QVariant, pyqtSignal
+from PyQt5.QtGui import QIcon
+from PyQt5.QtWidgets import QAction, QTableWidget, QTableWidgetItem, QMessageBox
 # Initialize Qt resources from file resources.py
-import resources_rc
+#from . import resources_rc
 # Import the code for the dialog
-from literature_mapper_dialog import LiteratureMapperDialog, TableInterface
+from .literature_mapper_dialog import LiteratureMapperDialog, TableInterface
 import os.path
 import json #json parsing library  simplejson simplejson.load(json string holding variable)
 import requests
-import urllib2
+import urllib.request, urllib.error, urllib.parse
 import re
-from qgis.core import QgsGeometry, QgsFeature, QgsMessageLog, QgsPoint, QgsVectorLayer, QgsField, QgsMapLayerRegistry
+from qgis.core import QgsGeometry, QgsFeature, QgsMessageLog, QgsPoint, QgsVectorLayer, QgsField, QgsProject
 from qgis.gui import QgsMapToolEmitPoint
 
 class MapToolEmitPoint(QgsMapToolEmitPoint):
@@ -80,10 +81,10 @@ class LiteratureMapper:
         
         # Declare instance attributes
         self.actions = []
-        self.menu = self.tr(u'&Literature Mapper')
+        self.menu = self.tr('&Literature Mapper')
 
-        self.toolbar = self.iface.addToolBar(u'LiteratureMapper')
-        self.toolbar.setObjectName(u'LiteratureMapper')
+        self.toolbar = self.iface.addToolBar('LiteratureMapper')
+        self.toolbar.setObjectName('LiteratureMapper')
 
     # noinspection PyMethodMayBeStatic
     def tr(self, message):
@@ -180,7 +181,7 @@ class LiteratureMapper:
         icon_path = ':/plugins/LiteratureMapper/icon.png'
         self.add_action(
             icon_path,
-            text=self.tr(u'Store locations in your Zotero database.'),
+            text=self.tr('Store locations in your Zotero database.'),
             callback=self.run,
             parent=self.iface.mainWindow())
         
@@ -188,12 +189,16 @@ class LiteratureMapper:
         #result = QObject.connect(self.clickTool, SIGNAL("canvasClicked(const QgsPoint &, Qt::MouseButton)"), self.handleMouseDown)
             
         # Signal for Saving data to Zotero
-        QObject.connect(self.dlgTable.pushButton_Save, SIGNAL("clicked()"), self.saveZotero)
-        
+        #QObject.connect(self.dlgTable.pushButton_Save, SIGNAL("clicked()"), self.saveZotero)
+        self.dlgTable.pushButton_Save.clicked.connect(self.saveZotero)
+
         # Signal for Point digitizing button
-        QObject.connect(self.dlgTable.pushButton_Point, SIGNAL("clicked()"), self.digitizePoint)
+        #QObject.connect(self.dlgTable.pushButton_Point, SIGNAL("clicked()"), self.digitizePoint)
+        self.dlgTable.pushButton_Point.clicked.connect(self.digitizePoint)
+        
         # Signal for Multipoint digitizing button
-        QObject.connect(self.dlgTable.pushButton_Multipoint, SIGNAL("clicked()"), self.digitizeMultipoint)
+        #QObject.connect(self.dlgTable.pushButton_Multipoint, SIGNAL("clicked()"), self.digitizeMultipoint)
+        self.dlgTable.pushButton_Multipoint.clicked.connect(self.digitizeMultipoint)
         # Signal for Finish Multipoint digitizing button
         #QObject.connect(self.dlgTable.pushButton_FinishMultipoint, SIGNAL("clicked()"), self.handleFinishMultipoint)
 
@@ -222,7 +227,7 @@ class LiteratureMapper:
 
     def saveZotero(self):
         #Write what happens to save to zotero here
-        rows = range(0, QTableWidget.rowCount(self.dlgTable.tableWidget_Zotero))
+        rows = list(range(0, QTableWidget.rowCount(self.dlgTable.tableWidget_Zotero)))
         for row in rows:
             #get the itemID(zotero key) and geometry cells from the table - itemAt(x,y)
             itemKey = self.dlgTable.tableWidget_Zotero.item(row, 0).text()
@@ -232,7 +237,7 @@ class LiteratureMapper:
             request_url = 'https://api.zotero.org/users/%s/items/%s' % (self.userID, itemKey)
             item_request = requests.get(request_url)
             QgsMessageLog.logMessage("Item Request Response: %s" % item_request.status_code, 'LiteratureMapper', QgsMessageLog.INFO)
-            item_json = json.load(urllib2.urlopen(request_url))
+            item_json = json.load(urllib.request.urlopen(request_url))
             item_json['data']['extra'] = extraString
             item_json=json.dumps(item_json)
             put_request = requests.put(request_url, data=item_json, headers={'Authorization': 'Bearer %s' % (self.apiKey), 'Content-Type': 'application/json'})
@@ -295,7 +300,7 @@ class LiteratureMapper:
         """Removes the plugin menu item and icon from QGIS GUI."""
         for action in self.actions:
             self.iface.removePluginMenu(
-                self.tr(u'&Literature Mapper'),
+                self.tr('&Literature Mapper'),
                 action)
             self.iface.removeToolBarIcon(action)
     
@@ -346,7 +351,7 @@ class LiteratureMapper:
             
             def data_get(userID, collectionID, apiKey):
                 api_url = 'https://api.zotero.org/users/%s/collections/%s/items?v=3&key=%s' % (userID, collectionID, apiKey)
-                data_json = json.load(urllib2.urlopen(api_url))
+                data_json = json.load(urllib.request.urlopen(api_url))
                 return data_json
                         
             #Getting the variables the user entered
@@ -377,7 +382,7 @@ class LiteratureMapper:
                 #Create the empty Point shapefile memory layer
                 self.pointLayer = QgsVectorLayer("Point", "Literature_Points", "memory")
                 self.pointProvider = self.pointLayer.dataProvider()
-                QgsMapLayerRegistry.instance().addMapLayer(self.pointLayer)
+                QgsMapLayer.instance().addMapLayer(self.pointLayer)
                 # add fields
                 self.pointProvider.addAttributes([QgsField("Key", QVariant.String),
                     QgsField("Year",  QVariant.Int),
@@ -390,7 +395,7 @@ class LiteratureMapper:
                 #Create the empty shapefile memory layer
                 self.multipointLayer = QgsVectorLayer("Multipoint", "Literature_Multipoints", "memory")
                 self.multipointProvider = self.multipointLayer.dataProvider()
-                QgsMapLayerRegistry.instance().addMapLayer(self.multipointLayer)
+                QgsMapLayer.instance().addMapLayer(self.multipointLayer)
                 # add fields
                 self.multipointProvider.addAttributes([QgsField("Key", QVariant.String),
                     QgsField("Year",  QVariant.Int),

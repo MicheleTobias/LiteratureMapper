@@ -21,9 +21,10 @@
  ***************************************************************************/
 """
 from PyQt5.QtCore import QSettings, QTranslator, qVersion, QCoreApplication, QObject, QVariant, pyqtSignal
-from PyQt5.QtGui import QAction, QIcon, QTableWidget, QTableWidgetItem, QMessageBox
+from PyQt5.QtGui import QIcon
+from PyQt5.QtWidgets import QAction, QTableWidget, QTableWidgetItem, QMessageBox
 # Initialize Qt resources from file resources.py
-from . import resources_rc
+#from . import resources_rc
 # Import the code for the dialog
 from .literature_mapper_dialog import LiteratureMapperDialog, TableInterface
 import os.path
@@ -31,7 +32,7 @@ import json #json parsing library  simplejson simplejson.load(json string holdin
 import requests
 import urllib.request, urllib.error, urllib.parse
 import re
-from qgis.core import QgsGeometry, QgsFeature, QgsMessageLog, QgsPoint, QgsVectorLayer, QgsField, QgsMapLayerRegistry
+from qgis.core import QgsGeometry, QgsFeature, QgsMessageLog, QgsPoint, QgsVectorLayer, QgsField, QgsProject
 from qgis.gui import QgsMapToolEmitPoint
 
 class MapToolEmitPoint(QgsMapToolEmitPoint):
@@ -381,7 +382,7 @@ class LiteratureMapper:
                 #Create the empty Point shapefile memory layer
                 self.pointLayer = QgsVectorLayer("Point", "Literature_Points", "memory")
                 self.pointProvider = self.pointLayer.dataProvider()
-                QgsMapLayerRegistry.instance().addMapLayer(self.pointLayer)
+                QgsMapLayer.instance().addMapLayer(self.pointLayer)
                 # add fields
                 self.pointProvider.addAttributes([QgsField("Key", QVariant.String),
                     QgsField("Year",  QVariant.Int),
@@ -394,7 +395,7 @@ class LiteratureMapper:
                 #Create the empty shapefile memory layer
                 self.multipointLayer = QgsVectorLayer("Multipoint", "Literature_Multipoints", "memory")
                 self.multipointProvider = self.multipointLayer.dataProvider()
-                QgsMapLayerRegistry.instance().addMapLayer(self.multipointLayer)
+                QgsMapLayer.instance().addMapLayer(self.multipointLayer)
                 # add fields
                 self.multipointProvider.addAttributes([QgsField("Key", QVariant.String),
                     QgsField("Year",  QVariant.Int),

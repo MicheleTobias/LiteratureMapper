@@ -344,7 +344,8 @@ class LiteratureMapper:
             
             #function to parse the Zotero API data
             def parse_zotero(zotero_response):
-                encoded_data = json.dumps(data.content)
+                encoded_data = json.dumps(zotero_response)
+				#encoded_data = json.dumps(data.content)
                 parsed_data = json.loads(encoded_data)
                 return parsed_data
             

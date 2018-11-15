@@ -504,7 +504,7 @@ class LiteratureMapper:
                             #put records with existing geometries into the virtual Multipoint shapefile attribute table
                             self.fet = QgsFeature()
                             #does QgsPoint make a multipoint or do you need another command?
-                            self.fet.setGeometry(QgsGeometry.fromMultiPoint(eval(coords_list)))
+                            self.fet.setGeometry(QgsGeometry.fromMultiPointXY(eval(coords_list)))
                             #^change 1,1 back to x,y
                             self.fet.setAttributes([key_str, year_str, author_list, title_str, extra_str])
                             self.multipointProvider.addFeatures([self.fet])

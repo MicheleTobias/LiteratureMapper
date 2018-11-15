@@ -35,8 +35,8 @@ import re
 from qgis.core import Qgis, QgsGeometry, QgsFeature, QgsMessageLog, QgsPointXY, QgsVectorLayer, QgsField, QgsProject
 from qgis.gui import QgsMapToolEmitPoint
 
-#Turn on to do debugging in QGIS
-import pdb
+# Turn on to do debugging in QGIS
+#import pdb
 # Add these lines where you want the break point
 #pyqtRemoveInputHook()
 #pdb.set_trace()

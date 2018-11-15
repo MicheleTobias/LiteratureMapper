@@ -382,7 +382,8 @@ class LiteratureMapper:
             #Send a Get Request to test the connection and get the collection data
             data = api_get(self.userID, self.collectionID, self.apiKey)
             data_parsed = parse_zotero(data)
-            data_json = data_get(self.userID, self.collectionID, self.apiKey)
+            #data_json = data_get(self.userID, self.collectionID, self.apiKey)
+            data_json = data_parsed
             
             #Filter the records to remove the Notes which contain no information about the citation
             # List of keys to be deleted from dictionary

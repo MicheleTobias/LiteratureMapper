@@ -32,7 +32,7 @@ import json #json parsing library  simplejson simplejson.load(json string holdin
 import requests
 import urllib.request, urllib.error, urllib.parse
 import re
-from qgis.core import Qgis, QgsGeometry, QgsFeature, QgsMessageLog, QgsPoint, QgsVectorLayer, QgsField, QgsProject
+from qgis.core import Qgis, QgsGeometry, QgsFeature, QgsMessageLog, QgsPointXY, QgsVectorLayer, QgsField, QgsProject
 from qgis.gui import QgsMapToolEmitPoint
 
 class MapToolEmitPoint(QgsMapToolEmitPoint):
@@ -208,7 +208,7 @@ class LiteratureMapper:
         
         #put point in the memory shp
         self.fet = QgsFeature()
-        self.fet.setGeometry(QgsGeometry.fromPoint(point))
+        self.fet.setGeometry(QgsGeometry.fromPointXY(point))
         #self.fet.setAttributes([key_str, year_str, author_list, title_str, extra_str])
         self.fet.setAttributes(
         [self.dlgTable.tableWidget_Zotero.item(self.dlgTable.tableWidget_Zotero.currentRow(),0).text(),
@@ -385,7 +385,7 @@ class LiteratureMapper:
                 #Create the empty Point shapefile memory layer
                 self.pointLayer = QgsVectorLayer("Point", "Literature_Points", "memory")
                 self.pointProvider = self.pointLayer.dataProvider()
-                QgsMapLayer.instance().addMapLayer(self.pointLayer)
+                QgsProject.instance().addMapLayer(self.pointLayer)
                 # add fields
                 self.pointProvider.addAttributes([QgsField("Key", QVariant.String),
                     QgsField("Year",  QVariant.Int),
@@ -398,7 +398,7 @@ class LiteratureMapper:
                 #Create the empty shapefile memory layer
                 self.multipointLayer = QgsVectorLayer("Multipoint", "Literature_Multipoints", "memory")
                 self.multipointProvider = self.multipointLayer.dataProvider()
-                QgsMapLayer.instance().addMapLayer(self.multipointLayer)
+                QgsProject.instance().addMapLayer(self.multipointLayer)
                 # add fields
                 self.multipointProvider.addAttributes([QgsField("Key", QVariant.String),
                     QgsField("Year",  QVariant.Int),
@@ -449,7 +449,7 @@ class LiteratureMapper:
                             y = float(coords[coords.find(',')+1:coords.find(']')])
                             #put records with existing geometries into the virtual Point shapefile attribute table
                             self.fet = QgsFeature()
-                            self.fet.setGeometry(QgsGeometry.fromPoint(QgsPoint(x,y)))
+                            self.fet.setGeometry(QgsGeometry.fromPointXY(QgsPointXY(x,y)))
                             self.fet.setAttributes([key_str, year_str, author_list, title_str, extra_str])
                             self.pointProvider.addFeatures([self.fet])
                             self.pointLayer.updateExtents()

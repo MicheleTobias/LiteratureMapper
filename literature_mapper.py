@@ -258,7 +258,8 @@ class LiteratureMapper:
             self.iface.messageBar().pushMessage("Failed to save locations to Zotero", level=3)
 
     def digitizePoint(self):
-        QObject.connect(self.clickTool, SIGNAL("canvasClicked(const QgsPoint &, Qt::MouseButton)"), self.handleMouseDown)
+        #QObject.connect(self.clickTool, SIGNAL("canvasClicked(const QgsPoint &, Qt::MouseButton)"), self.handleMouseDown)
+        self.clickTool.canvasClicked.connect(self.handleMouseDown)
         
     def handleMouseDownMultipoint(self, point):
         x = point.x()
@@ -378,7 +379,22 @@ class LiteratureMapper:
             data = api_get(self.userID, self.collectionID, self.apiKey)
             data_parsed = parse_zotero(data)
             data_json = data_get(self.userID, self.collectionID, self.apiKey)
-                        
+            
+            #Filter the records to remove the Notes which contain no information about the citation
+            # List of keys to be deleted from dictionary
+            selectedKeys = list() 
+            # Find the keys to delete, specifically the "note" items
+            for i, record in enumerate(data_json):
+                    if record['data']['itemType'] == 'note':
+                        #del data_json[i]
+                        selectedKeys.append(i)
+            #Reverse the order of the keys to work on the last one first.
+            #If you delete an index, the number of the indexes after it are changed, so we have to start at the end
+            selectedKeys.sort(reverse = True)
+            # Iterate over the list and delete corresponding key from dictionary
+            for key in selectedKeys:
+                del data_json[key]
+                    
             #if the server response = 200, start the window that records geometry from map canvas clicks.
             if data.status_code == 200:
                 #self.iface.messageBar().pushMessage("Zotero is ready!", level=1)
@@ -416,7 +432,7 @@ class LiteratureMapper:
                 self.multipointLayer.updateFields() # tell the vector layer to fetch changes from the provider
                 
                 for i, record in enumerate(data_json):
-                    if record['data']['itemType'] == 'note': continue
+                    #if record['data']['itemType'] == 'note': continue
                     key = QTableWidgetItem(record['data']['key'])
                     self.dlgTable.tableWidget_Zotero.setItem(i, 0, key)
                     key_str = record['data']['key']

@@ -330,7 +330,7 @@ class LiteratureMapper:
         result = self.dlg.exec_()
         self.store()
         # See if OK was pressed
-        
+     
 
         
         if result == 1:
@@ -338,15 +338,17 @@ class LiteratureMapper:
             #function to send a get request  # arrange the input into an API call that checks with Zotero 
             def api_get(userID, collectionID, apiKey):
                 api_url = 'https://api.zotero.org/users/%s/collections/%s/items?key=%s' % (userID, collectionID, apiKey)
+                print(api_url)
                 zotero_response = requests.get(api_url)
                 #print zotero_response.status_code
                 return zotero_response
             
             #function to parse the Zotero API data
             def parse_zotero(zotero_response):
-                encoded_data = json.dumps(zotero_response)
-				#encoded_data = json.dumps(data.content)
-                parsed_data = json.loads(encoded_data)
+                #encoded_data = json.dumps(zotero_response.content)
+                #encoded_data = json.dumps(data.content)
+                #parsed_data = json.loads(encoded_data)
+                parsed_data = json.loads(zotero_response.content)
                 return parsed_data
             
             

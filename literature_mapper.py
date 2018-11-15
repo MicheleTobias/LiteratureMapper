@@ -20,11 +20,11 @@
  *                                                                         *
  ***************************************************************************/
 """
-from PyQt5.QtCore import QSettings, QTranslator, qVersion, QCoreApplication, QObject, QVariant, pyqtSignal
+from PyQt5.QtCore import QSettings, QTranslator, qVersion, QCoreApplication, QObject, QVariant, pyqtSignal, pyqtRemoveInputHook
 from PyQt5.QtGui import QIcon
 from PyQt5.QtWidgets import QAction, QTableWidget, QTableWidgetItem, QMessageBox
 # Initialize Qt resources from file resources.py
-#from . import resources_rc
+from . import resources_rc
 # Import the code for the dialog
 from .literature_mapper_dialog import LiteratureMapperDialog, TableInterface
 import os.path
@@ -34,6 +34,12 @@ import urllib.request, urllib.error, urllib.parse
 import re
 from qgis.core import Qgis, QgsGeometry, QgsFeature, QgsMessageLog, QgsPointXY, QgsVectorLayer, QgsField, QgsProject
 from qgis.gui import QgsMapToolEmitPoint
+
+# Turn on to do debugging in QGIS
+#import pdb
+# Add these lines where you want the break point
+#pyqtRemoveInputHook()
+#pdb.set_trace()
 
 class MapToolEmitPoint(QgsMapToolEmitPoint):
     canvasDoubleClicked = pyqtSignal()
@@ -339,21 +345,22 @@ class LiteratureMapper:
             #function to send a get request  # arrange the input into an API call that checks with Zotero 
             def api_get(userID, collectionID, apiKey):
                 api_url = 'https://api.zotero.org/users/%s/collections/%s/items?key=%s' % (userID, collectionID, apiKey)
-                print(api_url)
+                QgsMessageLog.logMessage(api_url, 'LiteratureMapper', Qgis.Info)
                 zotero_response = requests.get(api_url)
                 #print zotero_response.status_code
                 return zotero_response
             
             #function to parse the Zotero API data
             def parse_zotero(zotero_response):
-                #encoded_data = json.dumps(zotero_response.content)
-                #encoded_data = json.dumps(data.content)
-                #parsed_data = json.loads(encoded_data)
-                parsed_data = json.loads(zotero_response.content)
+                '''parse the json into a usable object'''
+                parsed_data = json.loads(zotero_response.content.decode('utf-8'))
                 return parsed_data
             
             
             def data_get(userID, collectionID, apiKey):
+                ''' Alternative method of getting json that doesn't use requests.
+                Problem is we need the status not just the json returned.'''
+                
                 api_url = 'https://api.zotero.org/users/%s/collections/%s/items?v=3&key=%s' % (userID, collectionID, apiKey)
                 data_json = json.load(urllib.request.urlopen(api_url))
                 return data_json

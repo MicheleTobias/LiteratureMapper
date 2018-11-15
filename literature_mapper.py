@@ -24,7 +24,7 @@ from PyQt5.QtCore import QSettings, QTranslator, qVersion, QCoreApplication, QOb
 from PyQt5.QtGui import QIcon
 from PyQt5.QtWidgets import QAction, QTableWidget, QTableWidgetItem, QMessageBox
 # Initialize Qt resources from file resources.py
-#from . import resources_rc
+from . import resources_rc
 # Import the code for the dialog
 from .literature_mapper_dialog import LiteratureMapperDialog, TableInterface
 import os.path

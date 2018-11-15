@@ -493,7 +493,7 @@ class LiteratureMapper:
                             QgsMessageLog.logMessage("Coords: %s" % coords, 'LiteratureMapper', Qgis.Info)
                             #Replace [ with [( and add QgsPoint
                             p=re.compile( '\[' )
-                            c = p.sub('QgsPoint(', str(coords))
+                            c = p.sub('QgsPointXY(', str(coords))
                             #Replace ] with )]
                             q = re.compile( '\]' )
                             coords_list = q.sub(')', str(c))

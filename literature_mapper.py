@@ -261,6 +261,16 @@ class LiteratureMapper:
         #QObject.connect(self.clickTool, SIGNAL("canvasClicked(const QgsPoint &, Qt::MouseButton)"), self.handleMouseDown)
         self.clickTool.canvasClicked.connect(self.handleMouseDown)
         
+    def digitizeMultipoint(self):
+        #Empty list for storing points for digitizing
+        self.pointList = []
+        QgsMessageLog.logMessage("self.pointList: %s" % self.pointList, 'LiteratureMapper', Qgis.Info)
+        QgsMessageLog.logMessage("self.pointList: %s" % type(self.pointList), 'LiteratureMapper', Qgis.Info)
+        #resultMultipoint = QObject.connect(self.clickTool, SIGNAL("canvasClicked(const QgsPoint)"), self.handleMouseDownTwo)
+        #QObject.connect(self.clickTool, SIGNAL("canvasClicked(const QgsPoint &, Qt::MouseButton)"), self.handleMouseDownMultipoint)
+        self.clickTool.canvasClicked.connect(self.handleMouseDownMultipoint)
+        #QObject.connect(self.clickTool, SIGNAL("canvasDoubleClicked()"), self.handleMouseDownTwoFinish)
+        
     def handleMouseDownMultipoint(self, point):
         x = point.x()
         y = point.y()
@@ -293,14 +303,7 @@ class LiteratureMapper:
         # TODO: put the multipoints into a memory shp
         # TODO: populate the multipoint memory shp with existing multipoints
     
-    def digitizeMultipoint(self):
-        #Empty list for storing points for digitizing
-        self.pointList = []
-        QgsMessageLog.logMessage("self.pointList: %s" % self.pointList, 'LiteratureMapper', Qgis.Info)
-        QgsMessageLog.logMessage("self.pointList: %s" % type(self.pointList), 'LiteratureMapper', Qgis.Info)
-        #resultMultipoint = QObject.connect(self.clickTool, SIGNAL("canvasClicked(const QgsPoint)"), self.handleMouseDownTwo)
-        QObject.connect(self.clickTool, SIGNAL("canvasClicked(const QgsPoint &, Qt::MouseButton)"), self.handleMouseDownMultipoint)
-        #QObject.connect(self.clickTool, SIGNAL("canvasDoubleClicked()"), self.handleMouseDownTwoFinish)
+
 
 
     def unload(self):

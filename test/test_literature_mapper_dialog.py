@@ -18,7 +18,7 @@ from PyQt4.QtGui import QDialogButtonBox, QDialog
 
 from literature_mapper_dialog import LiteratureMapperDialog
 
-from utilities import get_qgis_app
+from .utilities import get_qgis_app
 QGIS_APP = get_qgis_app()
 
 

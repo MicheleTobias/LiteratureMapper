@@ -9,12 +9,12 @@
 """
 
 __author__ = 'mmtobias@ucdavis.edu'
-__date__ = '2015-06-06'
-__copyright__ = 'Copyright 2015, Michele Tobias & Alex Mandel'
+__date__ = '2018-11-15'
+__copyright__ = 'Copyright 2018, Michele Tobias & Alex Mandel'
 
 import unittest
 
-from PyQt4.QtGui import QIcon
+from PyQt5.QtGui import QIcon
 
 
 

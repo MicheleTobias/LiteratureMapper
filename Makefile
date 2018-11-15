@@ -3,9 +3,9 @@
 #
 # Add spatial locations to the citations in your Zotero database.
 #							 -------------------
-#		begin				: 2015-06-06
+#		begin				: 2018-11-15
 #		git sha				: $Format:%H$
-#		copyright			: (C) 2015 by Michele Tobias & Alex Mandel
+#		copyright			: (C) 2018 by Michele Tobias & Alex Mandel
 #		email				: mmtobias@ucdavis.edu
 # ***************************************************************************/
 #
@@ -24,7 +24,16 @@
 
 
 #Add iso code for any locales you want to support here (space separated)
-LOCALES = af
+# default is no locales
+# LOCALES = af
+LOCALES =
+
+# If locales are enabled, set the name of the lrelease binary on your system. If
+# you have trouble compiling the translations, you may have to specify the full path to
+# lrelease
+#LRELEASE = lrelease
+#LRELEASE = lrelease-qt4
+
 
 # translation
 SOURCES = \
@@ -39,10 +48,15 @@ PY_FILES = \
 	literature_mapper_dialog.py \
 	__init__.py
 
+UI_FILES = literature_mapper_dialog_base.ui table_interface.ui
+
 EXTRAS = icon.png metadata.txt
+
+EXTRA_DIRS =
 
 COMPILED_RESOURCE_FILES = resources_rc.py
 
+PEP8EXCLUDE=pydev,resources.py,conf.py,third_party,ui
 
 #################################################
 # Normally you would not need to edit below here
@@ -52,17 +66,19 @@ HELP = help/build/html
 
 PLUGIN_UPLOAD = $(c)/plugin_upload.py
 
-QGISDIR=.qgis2
+RESOURCE_SRC=$(shell grep '^ *<file' resources.qrc | sed 's@</file>@@g;s/.*>//g' | tr '\n' ' ')
+
+QGISDIR=.qgis3
 
 default: compile
 
 compile: $(COMPILED_RESOURCE_FILES)
 
-%_rc.py : %.qrc
-	pyrcc4 -o $*_rc.py  $<
+%.py : %.qrc $(RESOURCES_SRC)
+	pyrcc5 -o $*.py  $<
 
 %.qm : %.ts
-	lrelease $<
+	$(LRELEASE) $<
 
 test: compile transcompile
 	@echo
@@ -85,28 +101,31 @@ test: compile transcompile
 deploy: compile doc transcompile
 	@echo
 	@echo "------------------------------------------"
-	@echo "Deploying plugin to your .qgis2 directory."
+	@echo "Deploying plugin to your .qgis3 directory."
 	@echo "------------------------------------------"
 	# The deploy  target only works on unix like operating system where
 	# the Python plugin directory is located at:
 	# $HOME/$(QGISDIR)/python/plugins
 	mkdir -p $(HOME)/$(QGISDIR)/python/plugins/$(PLUGINNAME)
 	cp -vf $(PY_FILES) $(HOME)/$(QGISDIR)/python/plugins/$(PLUGINNAME)
-	cp -vf $(COMPILED_UI_FILES) $(HOME)/$(QGISDIR)/python/plugins/$(PLUGINNAME)
+	cp -vf $(UI_FILES) $(HOME)/$(QGISDIR)/python/plugins/$(PLUGINNAME)
 	cp -vf $(COMPILED_RESOURCE_FILES) $(HOME)/$(QGISDIR)/python/plugins/$(PLUGINNAME)
 	cp -vf $(EXTRAS) $(HOME)/$(QGISDIR)/python/plugins/$(PLUGINNAME)
 	cp -vfr i18n $(HOME)/$(QGISDIR)/python/plugins/$(PLUGINNAME)
 	cp -vfr $(HELP) $(HOME)/$(QGISDIR)/python/plugins/$(PLUGINNAME)/help
+	# Copy extra directories if any
+	#(foreach EXTRA_DIR,(EXTRA_DIRS), cp -R (EXTRA_DIR) (HOME)/(QGISDIR)/python/plugins/(PLUGINNAME)/;)
+
 
 # The dclean target removes compiled python files from plugin directory
-# also deletes any .svn entry
+# also deletes any .git entry
 dclean:
 	@echo
 	@echo "-----------------------------------"
 	@echo "Removing any compiled python files."
 	@echo "-----------------------------------"
 	find $(HOME)/$(QGISDIR)/python/plugins/$(PLUGINNAME) -iname "*.pyc" -delete
-	find $(HOME)/$(QGISDIR)/python/plugins/$(PLUGINNAME) -iname ".svn" -prune -exec rm -Rf {} \;
+	find $(HOME)/$(QGISDIR)/python/plugins/$(PLUGINNAME) -iname ".git" -prune -exec rm -Rf {} \;
 
 
 derase:
@@ -161,7 +180,7 @@ transcompile:
 	@echo "Compiled translation files to .qm files."
 	@echo "----------------------------------------"
 	@chmod +x scripts/compile-strings.sh
-	@scripts/compile-strings.sh $(LOCALES)
+	@scripts/compile-strings.sh $(LRELEASE) $(LOCALES)
 
 transclean:
 	@echo
@@ -205,4 +224,7 @@ pep8:
 	@echo "-----------"
 	@echo "PEP8 issues"
 	@echo "-----------"
-	@pep8 --repeat --ignore=E203,E121,E122,E123,E124,E125,E126,E127,E128 --exclude pydev,resources_rc.py,conf.py . || true
+	@pep8 --repeat --ignore=E203,E121,E122,E123,E124,E125,E126,E127,E128 --exclude $(PEP8EXCLUDE) . || true
+	@echo "-----------"
+	@echo "Ignored in PEP8 check:"
+	@echo $(PEP8EXCLUDE)

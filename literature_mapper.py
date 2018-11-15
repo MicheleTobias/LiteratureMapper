@@ -409,6 +409,7 @@ class LiteratureMapper:
                 self.multipointLayer.updateFields() # tell the vector layer to fetch changes from the provider
                 
                 for i, record in enumerate(data_json):
+                    if record['data']['itemType'] == 'note': continue
                     key = QTableWidgetItem(record['data']['key'])
                     self.dlgTable.tableWidget_Zotero.setItem(i, 0, key)
                     key_str = record['data']['key']

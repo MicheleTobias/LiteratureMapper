@@ -347,18 +347,17 @@ class LiteratureMapper:
         if result == 1:
             # send the API request
             #function to send a get request  # arrange the input into an API call that checks with Zotero 
-            def api_get(userID, collectionID, apiKey):
+            def api_get(userID, collectionID, apiKey, limit=100, start=1):
                 api_url = 'https://api.zotero.org/users/%s/collections/%s/items?key=%s' % (userID, collectionID, apiKey)
                 QgsMessageLog.logMessage(api_url, 'LiteratureMapper', Qgis.Info)
                 zotero_response = requests.get(api_url)
-                #print zotero_response.status_code
                 return zotero_response
             
             #function to parse the Zotero API data
             def parse_zotero(zotero_response):
-                '''parse the json into a usable object'''
+                '''parse the json into a usable object''' 
                 parsed_data = json.loads(zotero_response.content.decode('utf-8'))
-                return parsed_data
+                return total, parsed_data
             
             
             def data_get(userID, collectionID, apiKey):
@@ -381,8 +380,19 @@ class LiteratureMapper:
             
             #Send a Get Request to test the connection and get the collection data
             data = api_get(self.userID, self.collectionID, self.apiKey)
+            #print zotero_response.status_code            
+            # Check the status if 200 continue            
             data_parsed = parse_zotero(data)
             #data_json = data_get(self.userID, self.collectionID, self.apiKey)
+            total = data.headers['Total-Results']
+            if (total > 100):
+                # if total more than 100, page the request to get the remaining results and add them together
+                # TODO: figure out how many requests to make
+                # TODO: is zotero 0 or 1 indexed?
+                for i in 3:
+                    start = i*100
+                    more = api_get(self.userID, self.collectionID, self.apiKey, start=start)
+                    data_parsed = data_parsed+parse_zotero(more)
             data_json = data_parsed
             
             #Filter the records to remove the Notes which contain no information about the citation

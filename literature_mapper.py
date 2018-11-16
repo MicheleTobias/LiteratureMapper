@@ -347,8 +347,9 @@ class LiteratureMapper:
         if result == 1:
             # send the API request
             #function to send a get request  # arrange the input into an API call that checks with Zotero 
-            def api_get(userID, collectionID, apiKey, limit=100, start=1):
-                api_url = 'https://api.zotero.org/users/%s/collections/%s/items?key=%s' % (userID, collectionID, apiKey)
+
+            def api_get(userID, collectionID, apiKey, limit=100, start=0):
+                api_url = 'https://api.zotero.org/users/%s/collections/%s/items?key=%s&limit=%s&start=%s' % (userID, collectionID, apiKey, limit, start)
                 QgsMessageLog.logMessage(api_url, 'LiteratureMapper', Qgis.Info)
                 zotero_response = requests.get(api_url)
                 return zotero_response
@@ -364,7 +365,7 @@ class LiteratureMapper:
                 ''' Alternative method of getting json that doesn't use requests.
                 Problem is we need the status not just the json returned.'''
                 
-                api_url = 'https://api.zotero.org/users/%s/collections/%s/items?v=3&key=%s' % (userID, collectionID, apiKey)
+                api_url = 'https://api.zotero.org/users/%s/collections/%s/items?v=3&key=%s&limit=100' % (userID, collectionID, apiKey)
                 data_json = json.load(urllib.request.urlopen(api_url))
                 return data_json
                         
@@ -400,7 +401,7 @@ class LiteratureMapper:
             selectedKeys = list() 
             # Find the keys to delete, specifically the "note" items
             for i, record in enumerate(data_json):
-                    if record['data']['itemType'] == 'note':
+                    if record['data']['itemType'] in ['note', 'attachment']:
                         #del data_json[i]
                         selectedKeys.append(i)
             #Reverse the order of the keys to work on the last one first.
@@ -421,12 +422,13 @@ class LiteratureMapper:
                 self.dlgTable.tableWidget_Zotero.verticalHeader().setVisible(False)
                 
                 #Create the empty Point shapefile memory layer
-                self.pointLayer = QgsVectorLayer("Point", "Literature_Points", "memory")
+                self.pointLayer = QgsVectorLayer("Point?crs=epsg:4326", "Literature_Points", "memory")
                 self.pointProvider = self.pointLayer.dataProvider()
+                
                 QgsProject.instance().addMapLayer(self.pointLayer)
                 # add fields
                 self.pointProvider.addAttributes([QgsField("Key", QVariant.String),
-                    QgsField("Year",  QVariant.Int),
+                    QgsField("Year",  QVariant.String),
                     QgsField("Author", QVariant.String),
                     QgsField("Title", QVariant.String),
                     QgsField("Geometry", QVariant.String)
@@ -434,12 +436,12 @@ class LiteratureMapper:
                 self.pointLayer.updateFields() # tell the vector layer to fetch changes from the provider
                 
                 #Create the empty shapefile memory layer
-                self.multipointLayer = QgsVectorLayer("Multipoint", "Literature_Multipoints", "memory")
+                self.multipointLayer = QgsVectorLayer("Multipoint?crs=epsg:4326", "Literature_Multipoints", "memory")
                 self.multipointProvider = self.multipointLayer.dataProvider()
                 QgsProject.instance().addMapLayer(self.multipointLayer)
                 # add fields
                 self.multipointProvider.addAttributes([QgsField("Key", QVariant.String),
-                    QgsField("Year",  QVariant.Int),
+                    QgsField("Year",  QVariant.String),
                     QgsField("Author", QVariant.String),
                     QgsField("Title", QVariant.String),
                     QgsField("Geometry", QVariant.String)

@@ -411,8 +411,9 @@ class LiteratureMapper:
                 self.dlgTable.tableWidget_Zotero.verticalHeader().setVisible(False)
                 
                 #Create the empty Point shapefile memory layer
-                self.pointLayer = QgsVectorLayer("Point", "Literature_Points", "memory")
+                self.pointLayer = QgsVectorLayer("Point?crs=epsg:4326", "Literature_Points", "memory")
                 self.pointProvider = self.pointLayer.dataProvider()
+                
                 QgsProject.instance().addMapLayer(self.pointLayer)
                 # add fields
                 self.pointProvider.addAttributes([QgsField("Key", QVariant.String),
@@ -424,7 +425,7 @@ class LiteratureMapper:
                 self.pointLayer.updateFields() # tell the vector layer to fetch changes from the provider
                 
                 #Create the empty shapefile memory layer
-                self.multipointLayer = QgsVectorLayer("Multipoint", "Literature_Multipoints", "memory")
+                self.multipointLayer = QgsVectorLayer("Multipoint?crs=epsg:4326", "Literature_Multipoints", "memory")
                 self.multipointProvider = self.multipointLayer.dataProvider()
                 QgsProject.instance().addMapLayer(self.multipointLayer)
                 # add fields

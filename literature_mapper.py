@@ -390,7 +390,7 @@ class LiteratureMapper:
             selectedKeys = list() 
             # Find the keys to delete, specifically the "note" items
             for i, record in enumerate(data_json):
-                    if record['data']['itemType'] == 'note':
+                    if record['data']['itemType'] in ['note', 'attachment']:
                         #del data_json[i]
                         selectedKeys.append(i)
             #Reverse the order of the keys to work on the last one first.

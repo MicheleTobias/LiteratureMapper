@@ -359,7 +359,7 @@ class LiteratureMapper:
             def parse_zotero(zotero_response):
                 '''parse the json into a usable object''' 
                 parsed_data = json.loads(zotero_response.content.decode('utf-8'))
-                return total, parsed_data
+                return parsed_data
             
             
             def data_get(userID, collectionID, apiKey):
@@ -386,13 +386,13 @@ class LiteratureMapper:
             # Check the status if 200 continue            
             data_parsed = parse_zotero(data)
             #data_json = data_get(self.userID, self.collectionID, self.apiKey)
-            total = data.headers['Total-Results']
+            total = int(data.headers['Total-Results'])
             if (total > 100):
                 # if total more than 100, page the request to get the remaining results and add them together
                 # TODO: figure out how many requests to make
                 # TODO: is zotero 0 or 1 indexed?
                 pages = (ceil(total/100)-1)
-                for i in pages:
+                for i in range(1,pages):
                     start = (i*100)
                     more = api_get(self.userID, self.collectionID, self.apiKey, limit=100, start=start)
                     data_parsed = data_parsed+parse_zotero(more)

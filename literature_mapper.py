@@ -29,6 +29,7 @@ from . import resources_rc
 # Import the code for the dialog
 from .literature_mapper_dialog import LiteratureMapperDialog, TableInterface
 import os.path
+from math import ceil
 import json #json parsing library  simplejson simplejson.load(json string holding variable)
 import requests
 import urllib.request, urllib.error, urllib.parse
@@ -390,9 +391,10 @@ class LiteratureMapper:
                 # if total more than 100, page the request to get the remaining results and add them together
                 # TODO: figure out how many requests to make
                 # TODO: is zotero 0 or 1 indexed?
-                for i in 3:
-                    start = i*100
-                    more = api_get(self.userID, self.collectionID, self.apiKey, start=start)
+                pages = (ceil(total/100)-1)
+                for i in pages:
+                    start = (i*100)
+                    more = api_get(self.userID, self.collectionID, self.apiKey, limit=100, start=start)
                     data_parsed = data_parsed+parse_zotero(more)
             data_json = data_parsed
             

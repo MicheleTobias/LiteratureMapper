@@ -416,7 +416,7 @@ class LiteratureMapper:
                 QgsProject.instance().addMapLayer(self.pointLayer)
                 # add fields
                 self.pointProvider.addAttributes([QgsField("Key", QVariant.String),
-                    QgsField("Year",  QVariant.Int),
+                    QgsField("Year",  QVariant.String),
                     QgsField("Author", QVariant.String),
                     QgsField("Title", QVariant.String),
                     QgsField("Geometry", QVariant.String)

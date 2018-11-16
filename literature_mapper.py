@@ -348,7 +348,7 @@ class LiteratureMapper:
             # send the API request
             #function to send a get request  # arrange the input into an API call that checks with Zotero 
             def api_get(userID, collectionID, apiKey):
-                api_url = 'https://api.zotero.org/users/%s/collections/%s/items?key=%s' % (userID, collectionID, apiKey)
+                api_url = 'https://api.zotero.org/users/%s/collections/%s/items?key=%s&limit=100' % (userID, collectionID, apiKey)
                 QgsMessageLog.logMessage(api_url, 'LiteratureMapper', Qgis.Info)
                 zotero_response = requests.get(api_url)
                 #print zotero_response.status_code
@@ -365,7 +365,7 @@ class LiteratureMapper:
                 ''' Alternative method of getting json that doesn't use requests.
                 Problem is we need the status not just the json returned.'''
                 
-                api_url = 'https://api.zotero.org/users/%s/collections/%s/items?v=3&key=%s' % (userID, collectionID, apiKey)
+                api_url = 'https://api.zotero.org/users/%s/collections/%s/items?v=3&key=%s&limit=100' % (userID, collectionID, apiKey)
                 data_json = json.load(urllib.request.urlopen(api_url))
                 return data_json
                         

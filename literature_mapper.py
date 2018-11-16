@@ -29,6 +29,7 @@ from . import resources_rc
 # Import the code for the dialog
 from .literature_mapper_dialog import LiteratureMapperDialog, TableInterface
 import os.path
+from math import ceil
 import json #json parsing library  simplejson simplejson.load(json string holding variable)
 import requests
 import urllib.request, urllib.error, urllib.parse
@@ -347,16 +348,16 @@ class LiteratureMapper:
         if result == 1:
             # send the API request
             #function to send a get request  # arrange the input into an API call that checks with Zotero 
-            def api_get(userID, collectionID, apiKey):
-                api_url = 'https://api.zotero.org/users/%s/collections/%s/items?key=%s&limit=100' % (userID, collectionID, apiKey)
+
+            def api_get(userID, collectionID, apiKey, limit=100, start=0):
+                api_url = 'https://api.zotero.org/users/%s/collections/%s/items?key=%s&limit=%s&start=%s' % (userID, collectionID, apiKey, limit, start)
                 QgsMessageLog.logMessage(api_url, 'LiteratureMapper', Qgis.Info)
                 zotero_response = requests.get(api_url)
-                #print zotero_response.status_code
                 return zotero_response
             
             #function to parse the Zotero API data
             def parse_zotero(zotero_response):
-                '''parse the json into a usable object'''
+                '''parse the json into a usable object''' 
                 parsed_data = json.loads(zotero_response.content.decode('utf-8'))
                 return parsed_data
             
@@ -381,8 +382,20 @@ class LiteratureMapper:
             
             #Send a Get Request to test the connection and get the collection data
             data = api_get(self.userID, self.collectionID, self.apiKey)
+            #print zotero_response.status_code            
+            # Check the status if 200 continue            
             data_parsed = parse_zotero(data)
             #data_json = data_get(self.userID, self.collectionID, self.apiKey)
+            total = int(data.headers['Total-Results'])
+            if (total > 100):
+                # if total more than 100, page the request to get the remaining results and add them together
+                # TODO: figure out how many requests to make
+                # TODO: is zotero 0 or 1 indexed?
+                pages = (ceil(total/100)-1)
+                for i in range(1,pages):
+                    start = (i*100)
+                    more = api_get(self.userID, self.collectionID, self.apiKey, limit=100, start=start)
+                    data_parsed = data_parsed+parse_zotero(more)
             data_json = data_parsed
             
             #Filter the records to remove the Notes which contain no information about the citation

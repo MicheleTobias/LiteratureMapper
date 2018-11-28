@@ -350,18 +350,7 @@ class LiteratureMapper:
             #function to send a get request  # arrange the input into an API call that checks with Zotero 
 
             def api_get(userID, collectionID, apiKey, limit=100, start=0):
-                '''
-                Make the API request.
-                Filtering out notes and attachments drastically reduces the number of items, should save time.
-                '''
-                api_url = 'https://api.zotero.org/users/%s/collections/%s/items?key=%s&limit=%s&start=%s&itemType=-attachment || note' % (userID, collectionID, apiKey, limit, start)
-#                api_url = (
-#                        f"https://api.zotero.org/users/{userID}"
-#                        f"/collections/{collectionID}/items?"
-#                        f"key={apiKey}&limit={limit}&start={start}"
-#                        f"&itemType=-attachment || note"
-#                )
-                
+                api_url = 'https://api.zotero.org/users/%s/collections/%s/items?key=%s&limit=%s&start=%s' % (userID, collectionID, apiKey, limit, start)
                 QgsMessageLog.logMessage(api_url, 'LiteratureMapper', Qgis.Info)
                 zotero_response = requests.get(api_url)
                 return zotero_response
@@ -370,6 +359,7 @@ class LiteratureMapper:
             def parse_zotero(zotero_response):
                 '''parse the json into a usable object''' 
                 parsed_data = json.loads(zotero_response.content.decode('utf-8'))
+                #return total, parsed_data
                 return parsed_data
             
             
@@ -403,7 +393,7 @@ class LiteratureMapper:
                 # TODO: figure out how many requests to make
                 # TODO: is zotero 0 or 1 indexed?
                 pages = (ceil(total/100)-1)
-                for i in range(1,pages):
+                for i in range(1, pages+1):
                     start = (i*100)
                     more = api_get(self.userID, self.collectionID, self.apiKey, limit=100, start=start)
                     data_parsed = data_parsed+parse_zotero(more)

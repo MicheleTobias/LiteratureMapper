@@ -29,6 +29,7 @@ from . import resources_rc
 # Import the code for the dialog
 from .literature_mapper_dialog import LiteratureMapperDialog, TableInterface
 import os.path
+from math import ceil
 import json #json parsing library  simplejson simplejson.load(json string holding variable)
 import requests
 import urllib.request, urllib.error, urllib.parse
@@ -347,27 +348,39 @@ class LiteratureMapper:
         if result == 1:
             # send the API request
             #function to send a get request  # arrange the input into an API call that checks with Zotero 
-            def api_get(userID, collectionID, apiKey):
-                api_url = 'https://api.zotero.org/users/%s/collections/%s/items?key=%s' % (userID, collectionID, apiKey)
+
+            def api_get(userID, collectionID, apiKey, limit=100, start=0):
+                '''
+                Make the API request.
+                Filtering out notes and attachments drastically reduces the number of items, should save time.
+                '''
+                api_url = 'https://api.zotero.org/users/%s/collections/%s/items?key=%s&limit=%s&start=%s&itemType=-attachment || note' % (userID, collectionID, apiKey, limit, start)
+#                api_url = (
+#                        f"https://api.zotero.org/users/{userID}"
+#                        f"/collections/{collectionID}/items?"
+#                        f"key={apiKey}&limit={limit}&start={start}"
+#                        f"&itemType=-attachment || note"
+#                )
+                
                 QgsMessageLog.logMessage(api_url, 'LiteratureMapper', Qgis.Info)
                 zotero_response = requests.get(api_url)
-                #print zotero_response.status_code
                 return zotero_response
             
             #function to parse the Zotero API data
             def parse_zotero(zotero_response):
-                '''parse the json into a usable object'''
+                '''parse the json into a usable object''' 
                 parsed_data = json.loads(zotero_response.content.decode('utf-8'))
                 return parsed_data
             
-            
+            '''
             def data_get(userID, collectionID, apiKey):
-                ''' Alternative method of getting json that doesn't use requests.
-                Problem is we need the status not just the json returned.'''
+                #Alternative method of getting json that doesn't use requests.
+                #Problem is we need the status not just the json returned.
                 
-                api_url = 'https://api.zotero.org/users/%s/collections/%s/items?v=3&key=%s' % (userID, collectionID, apiKey)
+                api_url = 'https://api.zotero.org/users/%s/collections/%s/items?v=3&key=%s&limit=100' % (userID, collectionID, apiKey)
                 data_json = json.load(urllib.request.urlopen(api_url))
                 return data_json
+            '''
                         
             #Getting the variables the user entered
             self.userID = self.dlg.lineEdit_UserID.text()
@@ -381,8 +394,20 @@ class LiteratureMapper:
             
             #Send a Get Request to test the connection and get the collection data
             data = api_get(self.userID, self.collectionID, self.apiKey)
+            #print zotero_response.status_code            
+            # Check the status if 200 continue            
             data_parsed = parse_zotero(data)
             #data_json = data_get(self.userID, self.collectionID, self.apiKey)
+            total = int(data.headers['Total-Results'])
+            if (total > 100):
+                # if total more than 100, page the request to get the remaining results and add them together
+                # TODO: figure out how many requests to make
+                # TODO: is zotero 0 or 1 indexed?
+                pages = (ceil(total/100))
+                for i in range(1,pages):
+                    start = (i*100)
+                    more = api_get(self.userID, self.collectionID, self.apiKey, limit=100, start=start)
+                    data_parsed = data_parsed+parse_zotero(more)
             data_json = data_parsed
             
             #Filter the records to remove the Notes which contain no information about the citation
@@ -390,7 +415,7 @@ class LiteratureMapper:
             selectedKeys = list() 
             # Find the keys to delete, specifically the "note" items
             for i, record in enumerate(data_json):
-                    if record['data']['itemType'] == 'note':
+                    if record['data']['itemType'] in ['note', 'attachment']:
                         #del data_json[i]
                         selectedKeys.append(i)
             #Reverse the order of the keys to work on the last one first.
@@ -411,12 +436,13 @@ class LiteratureMapper:
                 self.dlgTable.tableWidget_Zotero.verticalHeader().setVisible(False)
                 
                 #Create the empty Point shapefile memory layer
-                self.pointLayer = QgsVectorLayer("Point", "Literature_Points", "memory")
+                self.pointLayer = QgsVectorLayer("Point?crs=epsg:4326", "Literature_Points", "memory")
                 self.pointProvider = self.pointLayer.dataProvider()
+                
                 QgsProject.instance().addMapLayer(self.pointLayer)
                 # add fields
                 self.pointProvider.addAttributes([QgsField("Key", QVariant.String),
-                    QgsField("Year",  QVariant.Int),
+                    QgsField("Year",  QVariant.String),
                     QgsField("Author", QVariant.String),
                     QgsField("Title", QVariant.String),
                     QgsField("Geometry", QVariant.String)
@@ -424,12 +450,12 @@ class LiteratureMapper:
                 self.pointLayer.updateFields() # tell the vector layer to fetch changes from the provider
                 
                 #Create the empty shapefile memory layer
-                self.multipointLayer = QgsVectorLayer("Multipoint", "Literature_Multipoints", "memory")
+                self.multipointLayer = QgsVectorLayer("Multipoint?crs=epsg:4326", "Literature_Multipoints", "memory")
                 self.multipointProvider = self.multipointLayer.dataProvider()
                 QgsProject.instance().addMapLayer(self.multipointLayer)
                 # add fields
                 self.multipointProvider.addAttributes([QgsField("Key", QVariant.String),
-                    QgsField("Year",  QVariant.Int),
+                    QgsField("Year",  QVariant.String),
                     QgsField("Author", QVariant.String),
                     QgsField("Title", QVariant.String),
                     QgsField("Geometry", QVariant.String)

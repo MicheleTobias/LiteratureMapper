@@ -372,14 +372,15 @@ class LiteratureMapper:
                 parsed_data = json.loads(zotero_response.content.decode('utf-8'))
                 return parsed_data
             
-            
+            '''
             def data_get(userID, collectionID, apiKey):
-                ''' Alternative method of getting json that doesn't use requests.
-                Problem is we need the status not just the json returned.'''
+                #Alternative method of getting json that doesn't use requests.
+                #Problem is we need the status not just the json returned.
                 
                 api_url = 'https://api.zotero.org/users/%s/collections/%s/items?v=3&key=%s&limit=100' % (userID, collectionID, apiKey)
                 data_json = json.load(urllib.request.urlopen(api_url))
                 return data_json
+            '''
                         
             #Getting the variables the user entered
             self.userID = self.dlg.lineEdit_UserID.text()

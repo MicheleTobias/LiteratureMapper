@@ -402,7 +402,7 @@ class LiteratureMapper:
                 # if total more than 100, page the request to get the remaining results and add them together
                 # TODO: figure out how many requests to make
                 # TODO: is zotero 0 or 1 indexed?
-                pages = (ceil(total/100)+1)
+                pages = (ceil(total/100))
                 for i in range(1,pages):
                     start = (i*100)
                     more = api_get(self.userID, self.collectionID, self.apiKey, limit=100, start=start)

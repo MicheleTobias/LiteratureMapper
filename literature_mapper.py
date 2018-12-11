@@ -246,6 +246,7 @@ class LiteratureMapper:
             item_request = requests.get(request_url)
             QgsMessageLog.logMessage("Item Request Response: %s" % item_request.status_code, 'LiteratureMapper', Qgis.Info)
             item_json = json.load(urllib.request.urlopen(request_url))
+            ####### saving Extra field
             item_json['data']['extra'] = extraString
             item_json=json.dumps(item_json)
             put_request = requests.put(request_url, data=item_json, headers={'Authorization': 'Bearer %s' % (self.apiKey), 'Content-Type': 'application/json'})
@@ -490,12 +491,21 @@ class LiteratureMapper:
                     self.dlgTable.tableWidget_Zotero.setItem(i, 3, title)
                     title_str = record['data']['title']
                     
+                    ########## Putting the Extra field into the table
                     # pre-populate the table with anything already in the Extra field
                     if 'extra' in record['data']:
                         extra = QTableWidgetItem(record['data']['extra'])
                         
                         extra_str = record['data']['extra']
+                        
+                        #example of how to pull out the geojson string from a messy Extra field:
+                        #geojson_str = text_extra[text_extra.find("<geojson>")+9:text_extra.find("</geojson>")]
+                        extra_str = extra_str[extra_str.find("<geojson>")+9:extra_str.find("</geojson>")]
+                        
+                        #prints the extra string to the log
                         QgsMessageLog.logMessage("Extra String: %s" % extra_str, 'LiteratureMapper', Qgis.Info)
+                        
+                        
                         check_point = '"type": "Point"'
                         check_multipoint = '"type": "Multip'
                         if extra_str[1:16] == check_point:

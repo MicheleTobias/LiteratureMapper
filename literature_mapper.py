@@ -239,13 +239,23 @@ class LiteratureMapper:
         for row in rows:
             #get the itemID(zotero key) and geometry cells from the table - itemAt(x,y)
             itemKey = self.dlgTable.tableWidget_Zotero.item(row, 0).text()
-            extraString = self.dlgTable.tableWidget_Zotero.item(row, 4).text()
-            QgsMessageLog.logMessage("row: %s  itemKey: %s  extraString: %s" % (row, itemKey, extraString), 'LiteratureMapper', Qgis.Info)
             
             request_url = 'https://api.zotero.org/users/%s/items/%s' % (self.userID, itemKey)
             item_request = requests.get(request_url)
             QgsMessageLog.logMessage("Item Request Response: %s" % item_request.status_code, 'LiteratureMapper', Qgis.Info)
             item_json = json.load(urllib.request.urlopen(request_url))
+            
+            #Put the extra string back together with the new coordinates
+            tablegeom = self.dlgTable.tableWidget_Zotero.item(row, 4).text()
+            extraZotero = item_json['data']['extra']
+            before_geojson = extraZotero[0 : extraZotero.find("<geojson>")]
+            after_geojson = extraZotero[extraZotero.find("</geojson>")+10:]
+            extraString = '%s<geojson>%s</geojson>%s' % (before_geojson, tablegeom, after_geojson) #build the new extraString here
+            
+            QgsMessageLog.logMessage("row: %s  itemKey: %s  extraString: %s" % (row, itemKey, extraString), 'LiteratureMapper', Qgis.Info)
+            
+            
+            ####### saving Extra field
             item_json['data']['extra'] = extraString
             item_json=json.dumps(item_json)
             put_request = requests.put(request_url, data=item_json, headers={'Authorization': 'Bearer %s' % (self.apiKey), 'Content-Type': 'application/json'})
@@ -490,12 +500,33 @@ class LiteratureMapper:
                     self.dlgTable.tableWidget_Zotero.setItem(i, 3, title)
                     title_str = record['data']['title']
                     
+                    ########## Putting the Extra field into the table
                     # pre-populate the table with anything already in the Extra field
                     if 'extra' in record['data']:
-                        extra = QTableWidgetItem(record['data']['extra'])
+                        #extra = QTableWidgetItem(record['data']['extra'])
                         
-                        extra_str = record['data']['extra']
+                        extra_zotero = record['data']['extra']
+                        
+                        #example of how to pull out the geojson string from a messy Extra field:
+                        #geojson_str = text_extra[text_extra.find("<geojson>")+9:text_extra.find("</geojson>")]
+                                         
+                                                
+                        if '<geojson>' in extra_zotero:
+                            extra_str = extra_zotero[extra_zotero.find('<geojson>')+9:extra_zotero.find('</geojson>')]
+                            #before_geojson = extra_zotero[0 : extra_zotero.find("<geojson>")]
+                            #after_geojson = extra_zotero[extra_zotero.find("</geojson>")+10:]
+                        elif '{"type":' in extra_zotero:
+                            extra_str = extra_zotero[extra_zotero.find('{'):extra_zotero.find('}')]
+                        else: extra_str = ''
+                        
+                        extra = QTableWidgetItem(extra_str)
+                        
+                        
+                        #prints the extra string to the log
                         QgsMessageLog.logMessage("Extra String: %s" % extra_str, 'LiteratureMapper', Qgis.Info)
+                        
+                        
+                        
                         check_point = '"type": "Point"'
                         check_multipoint = '"type": "Multip'
                         if extra_str[1:16] == check_point:
@@ -537,6 +568,7 @@ class LiteratureMapper:
                             self.multipointLayer.updateExtents()
                         else:
                             x = ''
+                            QgsMessageLog.logMessage("Not a point or multipoint", 'LiteratureMapper', Qgis.Info)
                     else:
                         extra = QTableWidgetItem("")
                     self.dlgTable.tableWidget_Zotero.setItem(i, 4, extra)

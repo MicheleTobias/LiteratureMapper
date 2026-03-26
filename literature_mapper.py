@@ -21,9 +21,9 @@
  *                                                                         *
  ***************************************************************************/
 """
-from PyQt5.QtCore import QSettings, QTranslator, qVersion, QCoreApplication, QObject, QVariant, pyqtSignal, pyqtRemoveInputHook
-from PyQt5.QtGui import QIcon
-from PyQt5.QtWidgets import QAction, QTableWidget, QTableWidgetItem, QMessageBox
+from qgis.PyQt.QtCore import QSettings, QTranslator, qVersion, QCoreApplication, QObject, QVariant, pyqtSignal, pyqtRemoveInputHook
+from qgis.PyQt.QtGui import QIcon
+from qgis.PyQt.QtWidgets import QAction, QTableWidget, QTableWidgetItem, QMessageBox
 # Initialize Qt resources from file resources.py
 from . import resources_rc
 # Import the code for the dialog
@@ -246,7 +246,7 @@ class LiteratureMapper:
 
             request_url = 'https://api.zotero.org/users/%s/items/%s' % (self.userID, itemKey)
             item_request = requests.get(request_url)
-            QgsMessageLog.logMessage("Item Request Response: %s" % item_request.status_code, 'LiteratureMapper', Qgis.Info)
+            QgsMessageLog.logMessage("Item Request Response: %s" % item_request.status_code, 'LiteratureMapper', Qgis.MessageLevel.Info)
             item_json = json.load(urllib.request.urlopen(request_url))
 
             #Put the extra string back together with the new coordinates
@@ -256,14 +256,14 @@ class LiteratureMapper:
             after_geojson = extraZotero[extraZotero.find("</geojson>")+10:]
             extraString = '%s<geojson>%s</geojson>%s' % (before_geojson, tablegeom, after_geojson) #build the new extraString here
 
-            QgsMessageLog.logMessage("row: %s  itemKey: %s  extraString: %s" % (row, itemKey, extraString), 'LiteratureMapper', Qgis.Info)
+            QgsMessageLog.logMessage("row: %s  itemKey: %s  extraString: %s" % (row, itemKey, extraString), 'LiteratureMapper', Qgis.MessageLevel.Info)
 
 
             ####### saving Extra field
             item_json['data']['extra'] = extraString
             item_json=json.dumps(item_json)
             put_request = requests.put(request_url, data=item_json, headers={'Authorization': 'Bearer %s' % (self.apiKey), 'Content-Type': 'application/json'})
-            QgsMessageLog.logMessage("Put Response: %s" % put_request.status_code, 'LiteratureMapper', Qgis.Info)
+            QgsMessageLog.logMessage("Put Response: %s" % put_request.status_code, 'LiteratureMapper', Qgis.MessageLevel.Info)
             statuscode = put_request.status_code
         # Message bar for result
         # TODO: make it check all the results, not just the last one
@@ -280,8 +280,8 @@ class LiteratureMapper:
     def digitizeMultipoint(self):
         #Empty list for storing points for digitizing
         self.pointList = []
-        QgsMessageLog.logMessage("self.pointList: %s" % self.pointList, 'LiteratureMapper', Qgis.Info)
-        QgsMessageLog.logMessage("self.pointList: %s" % type(self.pointList), 'LiteratureMapper', Qgis.Info)
+        QgsMessageLog.logMessage("self.pointList: %s" % self.pointList, 'LiteratureMapper', Qgis.MessageLevel.Info)
+        QgsMessageLog.logMessage("self.pointList: %s" % type(self.pointList), 'LiteratureMapper', Qgis.MessageLevel.Info)
         #resultMultipoint = QObject.connect(self.clickTool, SIGNAL("canvasClicked(const QgsPoint)"), self.handleMouseDownTwo)
         #QObject.connect(self.clickTool, SIGNAL("canvasClicked(const QgsPoint &, Qt::MouseButton)"), self.handleMouseDownMultipoint)
         self.clickTool.canvasClicked.connect(self.handleMouseDownMultipoint)
@@ -293,11 +293,11 @@ class LiteratureMapper:
         newPoint = [x, y]
         self.pointList.append(newPoint)
 
-        QgsMessageLog.logMessage("x: %s ... y: %s" % (x, y), 'LiteratureMapper', Qgis.Info)
-        QgsMessageLog.logMessage("x: %s ... y: %s" % (type(x), type(y)), 'LiteratureMapper', Qgis.Info)
-        QgsMessageLog.logMessage("newPoint: %s" % newPoint, 'LiteratureMapper', Qgis.Info)
-        QgsMessageLog.logMessage("newPoint: %s" % type(newPoint), 'LiteratureMapper', Qgis.Info)
-        QgsMessageLog.logMessage("self.pointList: %s" % self.pointList, 'LiteratureMapper', Qgis.Info)
+        QgsMessageLog.logMessage("x: %s ... y: %s" % (x, y), 'LiteratureMapper', Qgis.MessageLevel.Info)
+        QgsMessageLog.logMessage("x: %s ... y: %s" % (type(x), type(y)), 'LiteratureMapper', Qgis.MessageLevel.Info)
+        QgsMessageLog.logMessage("newPoint: %s" % newPoint, 'LiteratureMapper', Qgis.MessageLevel.Info)
+        QgsMessageLog.logMessage("newPoint: %s" % type(newPoint), 'LiteratureMapper', Qgis.MessageLevel.Info)
+        QgsMessageLog.logMessage("self.pointList: %s" % self.pointList, 'LiteratureMapper', Qgis.MessageLevel.Info)
 
         self.dlgTable.tableWidget_Zotero.setItem(self.dlgTable.tableWidget_Zotero.currentRow(),4,QTableWidgetItem('{"type": "Multipoint", "coordinates": %s}' % self.pointList))
 
@@ -351,7 +351,7 @@ class LiteratureMapper:
         self.dlg.show()
         self.read()
         # Run the dialog event loop
-        result = self.dlg.exec_()
+        result = self.dlg.exec()
         self.store()
         # See if OK was pressed
 
@@ -374,7 +374,7 @@ class LiteratureMapper:
 #                        f"&itemType=-attachment || note"
 #                )
 
-                QgsMessageLog.logMessage(api_url, 'LiteratureMapper', Qgis.Info)
+                QgsMessageLog.logMessage(api_url, 'LiteratureMapper', Qgis.MessageLevel.Info)
                 zotero_response = requests.get(api_url)
                 return zotero_response
 
@@ -400,9 +400,9 @@ class LiteratureMapper:
             self.apiKey = self.dlg.lineEdit_APIKey.text()
 
             #Log the numbers the user entered
-            QgsMessageLog.logMessage("User ID: %s" % self.userID, 'LiteratureMapper', Qgis.Info)
-            QgsMessageLog.logMessage("Collection ID: %s" % self.collectionID, 'LiteratureMapper', Qgis.Info)
-            QgsMessageLog.logMessage("API Key: %s" % self.apiKey, 'LiteratureMapper', Qgis.Info)
+            QgsMessageLog.logMessage("User ID: %s" % self.userID, 'LiteratureMapper', Qgis.MessageLevel.Info)
+            QgsMessageLog.logMessage("Collection ID: %s" % self.collectionID, 'LiteratureMapper', Qgis.MessageLevel.Info)
+            QgsMessageLog.logMessage("API Key: %s" % self.apiKey, 'LiteratureMapper', Qgis.MessageLevel.Info)
 
             #Send a Get Request to test the connection and get the collection data
             data = api_get(self.userID, self.collectionID, self.apiKey)
@@ -525,7 +525,7 @@ class LiteratureMapper:
 
 
                         #prints the extra string to the log
-                        QgsMessageLog.logMessage("Extra String: %s" % extra_str, 'LiteratureMapper', Qgis.Info)
+                        QgsMessageLog.logMessage("Extra String: %s" % extra_str, 'LiteratureMapper', Qgis.MessageLevel.Info)
 
 
 
@@ -544,12 +544,12 @@ class LiteratureMapper:
                         elif extra_str[1:16] == check_multipoint:
                             #Alter to make a multipoint
                             #Needs a loop to run through all the points?
-                            QgsMessageLog.logMessage("Made it into Multipoint Elif", 'LiteratureMapper', Qgis.Info)
+                            QgsMessageLog.logMessage("Made it into Multipoint Elif", 'LiteratureMapper', Qgis.MessageLevel.Info)
 
                             # Coords needs to be formatted this way: gPolygon = QgsGeometry.fromPolygon([[QgsPoint(1, 1), QgsPoint(2, 2), QgsPoint(2, 1)]])
                             coords = extra_str[(extra_str.find('[')+1): (len(extra_str)-2)]
                             #looks like this: [-132.58038861948805, 36.36773760268237], [-126.90494519104253, 33.262306292778206], [-124.28139115336488, 36.84961487490887]
-                            QgsMessageLog.logMessage("Coords: %s" % coords, 'LiteratureMapper', Qgis.Info)
+                            QgsMessageLog.logMessage("Coords: %s" % coords, 'LiteratureMapper', Qgis.MessageLevel.Info)
                             #Replace [ with [( and add QgsPoint
                             p=re.compile( '\[' )
                             c = p.sub('QgsPointXY(', str(coords))
@@ -558,7 +558,7 @@ class LiteratureMapper:
                             coords_list = q.sub(')', str(c))
 
                             coords_list = '['+coords_list+']'
-                            QgsMessageLog.logMessage("Coords_List: %s" % coords_list, 'LiteratureMapper', Qgis.Info)
+                            QgsMessageLog.logMessage("Coords_List: %s" % coords_list, 'LiteratureMapper', Qgis.MessageLevel.Info)
 
                             #put records with existing geometries into the virtual Multipoint shapefile attribute table
                             self.fet = QgsFeature()
@@ -570,7 +570,7 @@ class LiteratureMapper:
                             self.multipointLayer.updateExtents()
                         else:
                             x = ''
-                            QgsMessageLog.logMessage("Not a point or multipoint", 'LiteratureMapper', Qgis.Info)
+                            QgsMessageLog.logMessage("Not a point or multipoint", 'LiteratureMapper', Qgis.MessageLevel.Info)
                     else:
                         extra = QTableWidgetItem("")
                     self.dlgTable.tableWidget_Zotero.setItem(i, 4, extra)

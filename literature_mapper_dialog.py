@@ -23,8 +23,8 @@
 
 import os
 
-from PyQt5 import uic
-from PyQt5.QtWidgets import QDialog
+from qgis.PyQt import uic
+from qgis.PyQt.QtWidgets import QDialog
 #from PyQt.QtCore import QObject
 
 FORM_CLASS, _ = uic.loadUiType(os.path.join(
